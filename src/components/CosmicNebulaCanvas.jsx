@@ -10,67 +10,71 @@ export default function CosmicNebulaCanvas({ motionEnabled = true, isMobile = fa
     let animationFrameId
     let time = 0
 
-    // High-resolution canvas sizing for crisp fluid rendering
-    const size = isMobile ? 480 : 780
+    // Canvas sizing
+    const size = isMobile ? 500 : 820
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
     canvas.width = size * dpr
     canvas.height = size * dpr
     ctx.scale(dpr, dpr)
 
-    // Volumetric fluid cosmic orbs drifting in slow harmonic orbits
+    // 6 Fluid Cosmic Plasma Orbs with distinct harmonic frequencies and base hues
     const orbs = [
-      // 1. Deep Cosmic Purple (Left-Center Core)
-      { xBase: 0.38, yBase: 0.46, radius: size * 0.38, hue: 278, sat: 92, light: 55, speedX: 0.00032, speedY: 0.00028, phase: 0 },
-      // 2. Electric Royal Blue (Right-Center Core)
-      { xBase: 0.62, yBase: 0.52, radius: size * 0.36, hue: 224, sat: 95, light: 56, speedX: 0.00041, speedY: 0.00035, phase: 1.8 },
-      // 3. Electric Cyan / Sky Neon (Upper Right Flare)
-      { xBase: 0.56, yBase: 0.36, radius: size * 0.32, hue: 198, sat: 96, light: 54, speedX: 0.00035, speedY: 0.00042, phase: 3.2 },
-      // 4. Vivid Magenta / Violet (Upper Left Flare)
-      { xBase: 0.42, yBase: 0.38, radius: size * 0.34, hue: 295, sat: 88, light: 52, speedX: 0.00045, speedY: 0.00031, phase: 4.5 },
-      // 5. Deep Cosmic Crimson (Perimeter Ambient Blend)
-      { xBase: 0.50, yBase: 0.65, radius: size * 0.40, hue: 350, sat: 86, light: 48, speedX: 0.00028, speedY: 0.00036, phase: 5.7 }
+      // 1. Primary Cosmic Violet / Purple Core
+      { xBase: 0.40, yBase: 0.45, radius: size * 0.42, baseHue: 275, speedX: 0.016, speedY: 0.014, ampX: size * 0.14, ampY: size * 0.12, phase: 0 },
+      // 2. Electric Royal Blue Core
+      { xBase: 0.60, yBase: 0.50, radius: size * 0.40, baseHue: 220, speedX: 0.019, speedY: 0.017, ampX: size * 0.15, ampY: size * 0.13, phase: 1.6 },
+      // 3. Electric Cyan Neon Flare
+      { xBase: 0.54, yBase: 0.34, radius: size * 0.35, baseHue: 195, speedX: 0.022, speedY: 0.020, ampX: size * 0.16, ampY: size * 0.11, phase: 3.2 },
+      // 4. Vivid Magenta / Cosmic Pink Flare
+      { xBase: 0.36, yBase: 0.38, radius: size * 0.36, baseHue: 310, speedX: 0.018, speedY: 0.023, ampX: size * 0.13, ampY: size * 0.14, phase: 4.4 },
+      // 5. Deep Cosmic Crimson Ambient Edge
+      { xBase: 0.50, yBase: 0.66, radius: size * 0.44, baseHue: 350, speedX: 0.014, speedY: 0.016, ampX: size * 0.12, ampY: size * 0.10, phase: 5.8 },
+      // 6. Volumetric Center Pulse Orb
+      { xBase: 0.50, yBase: 0.45, radius: size * 0.30, baseHue: 250, speedX: 0.025, speedY: 0.021, ampX: size * 0.08, ampY: size * 0.09, phase: 2.5 }
     ]
 
-    // Floating celestial cosmic stardust motes
-    const particleCount = isMobile ? 12 : 24
+    // Celestial Stardust Embers swirling in the cosmic vortex
+    const particleCount = isMobile ? 18 : 36
     const particles = Array.from({ length: particleCount }, () => ({
       x: Math.random() * size,
       y: Math.random() * size,
-      radius: Math.random() * 2 + 0.8,
-      speedY: Math.random() * 0.25 + 0.1,
-      speedX: (Math.random() - 0.5) * 0.2,
-      alpha: Math.random() * 0.5 + 0.2,
-      hue: Math.random() > 0.5 ? 275 : 215
+      radius: Math.random() * 2.2 + 0.8,
+      speedY: Math.random() * 0.6 + 0.25,
+      speedX: (Math.random() - 0.5) * 0.5,
+      alpha: Math.random() * 0.6 + 0.25,
+      hueOffset: Math.random() * 80
     }))
 
     const render = () => {
-      // Advance time very slowly for a hypnotic, pre-rendered video feel
+      // Advance time for continuous smooth loop
       time += motionEnabled ? 1 : 0
 
       ctx.clearRect(0, 0, size, size)
 
-      // Use screen blend mode for realistic volumetric light accumulation
+      // Screen blend mode for vibrant volumetric light addition
       ctx.globalCompositeOperation = 'screen'
 
-      // Slow color drift in the same shade family (purple <-> royal blue <-> cyan <-> crimson)
-      const colorDrift = Math.sin(time * 0.0004) * 16
+      // ── CONTINUOUS COLOR MOTION LOOP ──
+      // Dynamic chromatic oscillation: smoothly sweeps through the cosmic spectrum
+      // Electric Blue (210°) -> Sapphire (240°) -> Violet (275°) -> Magenta (315°) -> Crimson (350°) -> Back
+      const globalHueShift = Math.sin(time * 0.012) * 45 + (Math.sin(time * 0.005) * 20)
 
-      // Render each slowly moving fluid nebula orb
+      // Render each moving, swirling, breathing cosmic orb
       orbs.forEach((orb) => {
-        const xOffset = Math.sin(time * orb.speedX + orb.phase) * (size * 0.12)
-        const yOffset = Math.cos(time * orb.speedY + orb.phase * 1.3) * (size * 0.10)
-        const radiusPulse = 1 + Math.sin(time * 0.0006 + orb.phase) * 0.10
+        // Harmonic Lissajous fluid position
+        const x = orb.xBase * size + Math.sin(time * orb.speedX + orb.phase) * orb.ampX
+        const y = orb.yBase * size + Math.cos(time * orb.speedY + orb.phase * 1.2) * orb.ampY
+        
+        // Dynamic breathing radius
+        const r = orb.radius * (1 + Math.sin(time * 0.02 + orb.phase) * 0.18)
 
-        const x = orb.xBase * size + xOffset
-        const y = orb.yBase * size + yOffset
-        const r = orb.radius * radiusPulse
-
-        const currentHue = (orb.hue + colorDrift + 360) % 360
+        // Dynamic shifting hue
+        const currentHue = (orb.baseHue + globalHueShift + 360) % 360
 
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, r)
-        gradient.addColorStop(0, `hsla(${currentHue}, ${orb.sat}%, ${orb.light}%, 0.65)`)
-        gradient.addColorStop(0.35, `hsla(${currentHue}, ${orb.sat}%, ${orb.light - 5}%, 0.38)`)
-        gradient.addColorStop(0.65, `hsla(${currentHue}, ${orb.sat - 10}%, ${orb.light - 10}%, 0.12)`)
+        gradient.addColorStop(0, `hsla(${currentHue}, 96%, 62%, 0.72)`)
+        gradient.addColorStop(0.35, `hsla(${currentHue}, 92%, 52%, 0.45)`)
+        gradient.addColorStop(0.65, `hsla(${currentHue}, 88%, 42%, 0.16)`)
         gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
 
         ctx.fillStyle = gradient
@@ -79,23 +83,25 @@ export default function CosmicNebulaCanvas({ motionEnabled = true, isMobile = fa
         ctx.fill()
       })
 
-      // Render subtle stardust embers drifting in the cosmic field
+      // Render swirling cosmic stardust motes
       particles.forEach((p) => {
         p.y -= p.speedY
-        p.x += Math.sin(time * 0.002 + p.x) * 0.25
+        p.x += Math.sin(time * 0.03 + p.x) * 0.45
 
         if (p.y < 0) {
           p.y = size + 10
           p.x = Math.random() * size
         }
 
-        const pGradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 2)
-        pGradient.addColorStop(0, `hsla(${p.hue}, 90%, 75%, ${p.alpha})`)
+        const particleHue = (240 + globalHueShift + p.hueOffset + 360) % 360
+
+        const pGradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 2.5)
+        pGradient.addColorStop(0, `hsla(${particleHue}, 95%, 78%, ${p.alpha})`)
         pGradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
 
         ctx.fillStyle = pGradient
         ctx.beginPath()
-        ctx.arc(p.x, p.y, p.radius * 2, 0, Math.PI * 2)
+        ctx.arc(p.x, p.y, p.radius * 2.5, 0, Math.PI * 2)
         ctx.fill()
       })
 
@@ -115,14 +121,14 @@ export default function CosmicNebulaCanvas({ motionEnabled = true, isMobile = fa
       ref={canvasRef}
       className="hero-cosmic-canvas"
       style={{
-        width: isMobile ? '460px' : '720px',
-        height: isMobile ? '460px' : '720px',
+        width: isMobile ? '480px' : '780px',
+        height: isMobile ? '480px' : '780px',
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        filter: isMobile ? 'blur(45px)' : 'blur(55px)',
-        opacity: 0.92,
+        filter: isMobile ? 'blur(40px)' : 'blur(50px)',
+        opacity: 0.95,
         mixBlendMode: 'screen',
         pointerEvents: 'none',
         zIndex: 0

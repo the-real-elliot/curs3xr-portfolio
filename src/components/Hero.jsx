@@ -455,7 +455,7 @@ export default function Hero({ motionEnabled }) {
             transparent 75%
           );
           filter: blur(85px);
-          animation: cosmicPulse 8s ease-in-out infinite alternate;
+          animation: cosmicColorShift 7s ease-in-out infinite alternate;
         }
 
         /* Electric Blue Right Rim Light Orb */
@@ -472,6 +472,7 @@ export default function Hero({ motionEnabled }) {
             transparent 70%
           );
           filter: blur(65px);
+          animation: cosmicOrbFloatA 6s ease-in-out infinite alternate;
         }
 
         /* Vivid Cosmic Purple Left Rim Light Orb */
@@ -488,6 +489,7 @@ export default function Hero({ motionEnabled }) {
             transparent 70%
           );
           filter: blur(65px);
+          animation: cosmicOrbFloatB 6.5s ease-in-out infinite alternate;
         }
 
         /* Godrays: Volumetric light beam fan radiating softly behind head & shoulders */
@@ -510,11 +512,78 @@ export default function Hero({ motionEnabled }) {
           opacity: 0.9;
           mask-image: radial-gradient(circle at 50% 100%, black 40%, transparent 80%);
           -webkit-mask-image: radial-gradient(circle at 50% 100%, black 40%, transparent 80%);
+          animation: godraysSweep 9s ease-in-out infinite alternate;
         }
 
-        @keyframes cosmicPulse {
-          0% { transform: scale(0.96); opacity: 0.85; }
-          100% { transform: scale(1.04); opacity: 1; }
+        @keyframes cosmicColorShift {
+          0% {
+            transform: scale(0.94) rotate(0deg);
+            filter: blur(85px) hue-rotate(0deg);
+            opacity: 0.85;
+          }
+          33% {
+            transform: scale(1.06) rotate(6deg);
+            filter: blur(75px) hue-rotate(50deg);
+            opacity: 1;
+          }
+          66% {
+            transform: scale(1.02) rotate(-4deg);
+            filter: blur(80px) hue-rotate(110deg);
+            opacity: 0.92;
+          }
+          100% {
+            transform: scale(0.97) rotate(0deg);
+            filter: blur(85px) hue-rotate(0deg);
+            opacity: 0.85;
+          }
+        }
+
+        @keyframes cosmicOrbFloatA {
+          0% {
+            transform: translate(0px, 0px) scale(0.95);
+            filter: blur(65px) hue-rotate(0deg);
+          }
+          50% {
+            transform: translate(25px, -20px) scale(1.12);
+            filter: blur(55px) hue-rotate(60deg);
+          }
+          100% {
+            transform: translate(-10px, 15px) scale(0.98);
+            filter: blur(65px) hue-rotate(120deg);
+          }
+        }
+
+        @keyframes cosmicOrbFloatB {
+          0% {
+            transform: translate(0px, 0px) scale(1.05);
+            filter: blur(65px) hue-rotate(0deg);
+          }
+          50% {
+            transform: translate(-25px, 20px) scale(0.92);
+            filter: blur(55px) hue-rotate(-60deg);
+          }
+          100% {
+            transform: translate(12px, -15px) scale(1.08);
+            filter: blur(65px) hue-rotate(-120deg);
+          }
+        }
+
+        @keyframes godraysSweep {
+          0% {
+            transform: rotate(0deg) scale(0.95);
+            opacity: 0.75;
+            filter: blur(48px) hue-rotate(0deg);
+          }
+          50% {
+            transform: rotate(18deg) scale(1.08);
+            opacity: 1;
+            filter: blur(42px) hue-rotate(65deg);
+          }
+          100% {
+            transform: rotate(-10deg) scale(0.98);
+            opacity: 0.8;
+            filter: blur(48px) hue-rotate(130deg);
+          }
         }
 
         /* Portrait Frame with Continuous Lifelike Floating / Breathing Motion */
