@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Sparkles, Activity, ShieldAlert, Terminal, ArrowUpRight } from 'lucide-react'
+import { Menu, X, ArrowUpRight } from 'lucide-react'
 import { siteConfig } from '../config/site'
 
-export default function Header({ motionEnabled, setMotionEnabled, swarmActive, setSwarmActive }) {
+export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
@@ -60,7 +60,7 @@ export default function Header({ motionEnabled, setMotionEnabled, swarmActive, s
         left: 0,
         right: 0,
         zIndex: 100,
-        backgroundColor: scrolled ? 'rgba(9, 9, 9, 0.88)' : 'transparent',
+        backgroundColor: scrolled ? 'rgba(9, 9, 9, 0.92)' : 'transparent',
         backdropFilter: scrolled ? 'blur(16px)' : 'none',
         borderBottom: scrolled ? '1px solid var(--border-color)' : '1px solid transparent',
         transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)'
@@ -131,49 +131,13 @@ export default function Header({ motionEnabled, setMotionEnabled, swarmActive, s
 
         {/* Controls & CTA */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          {/* Swarm Animation Button */}
-          <button
-            onClick={() => setSwarmActive(!swarmActive)}
-            title="Toggle interactive background particle swarm"
-            aria-label="Toggle Swarm Particles"
-            className="badge"
-            style={{
-              cursor: 'pointer',
-              background: swarmActive ? 'rgba(227, 43, 60, 0.15)' : '#161616',
-              borderColor: swarmActive ? 'var(--accent)' : 'var(--border-color)',
-              color: swarmActive ? 'var(--accent)' : 'var(--text-muted)',
-              display: 'none'
-            }}
-            id="swarm-toggle-btn"
-          >
-            <Sparkles size={12} />
-            <span>SWARM: {swarmActive ? 'ON' : 'OFF'}</span>
-          </button>
-
-          {/* Motion Toggle */}
-          <button
-            onClick={() => setMotionEnabled(!motionEnabled)}
-            title="Toggle animations / reduced-motion"
-            aria-label="Toggle Animations"
-            className="badge"
-            style={{
-              cursor: 'pointer',
-              background: motionEnabled ? 'rgba(227, 43, 60, 0.12)' : '#161616',
-              borderColor: motionEnabled ? 'var(--accent)' : 'var(--border-color)',
-              color: motionEnabled ? 'var(--accent)' : 'var(--text-muted)'
-            }}
-          >
-            <Activity size={12} />
-            <span>FX: {motionEnabled ? 'ON' : 'OFF'}</span>
-          </button>
-
           {/* Contact Direct CTA */}
           <a
             href="#contact"
             className="btn btn-primary"
             style={{
-              padding: '0.6rem 1.2rem',
-              fontSize: '0.78rem',
+              padding: '0.65rem 1.4rem',
+              fontSize: '0.8rem',
               display: 'none'
             }}
             id="desktop-contact-cta"
@@ -186,20 +150,22 @@ export default function Header({ motionEnabled, setMotionEnabled, swarmActive, s
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation menu"
-            style={{
-              color: 'var(--text-primary)',
-              padding: '0.5rem',
-              display: 'flex',
-              alignItems: 'center'
-            }}
             className="mobile-hamburger"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--text-primary)',
+              cursor: 'pointer',
+              display: 'flex',
+              padding: '0.5rem'
+            }}
           >
-            {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -229,21 +195,15 @@ export default function Header({ motionEnabled, setMotionEnabled, swarmActive, s
                   {link.name}
                 </a>
               ))}
-              <div style={{ paddingTop: '1rem', borderTop: '1px solid var(--border-color)', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <button
-                  onClick={() => { setSwarmActive(!swarmActive); setMobileMenuOpen(false); }}
-                  className="badge"
-                  style={{ cursor: 'pointer', padding: '0.6rem 1rem' }}
-                >
-                  <Sparkles size={14} /> SWARM: {swarmActive ? 'ON' : 'OFF'}
-                </button>
+              <div style={{ paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
                 <a
                   href="#contact"
                   onClick={() => setMobileMenuOpen(false)}
                   className="btn btn-primary"
-                  style={{ width: '100%', padding: '0.8rem' }}
+                  style={{ width: '100%', padding: '0.8rem', justifyContent: 'center' }}
                 >
-                  INITIATE CONTACT
+                  <span>INITIATE CONTACT</span>
+                  <ArrowUpRight size={14} />
                 </a>
               </div>
             </div>
@@ -255,7 +215,6 @@ export default function Header({ motionEnabled, setMotionEnabled, swarmActive, s
         @media (min-width: 960px) {
           .desktop-nav { display: flex !important; }
           #desktop-contact-cta { display: inline-flex !important; }
-          #swarm-toggle-btn { display: inline-flex !important; }
           .mobile-hamburger { display: none !important; }
         }
       `}</style>

@@ -14,39 +14,26 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 
 export default function App() {
-  const [motionEnabled, setMotionEnabled] = useState(() => {
-    const saved = localStorage.getItem('curs3xr_motion_pref')
-    if (saved !== null) return saved === 'true'
-    return !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  })
-
-  const [swarmActive, setSwarmActive] = useState(true)
+  // High-end VFX & animations permanently active
+  const motionEnabled = true
+  const swarmActive = true
   const [selectedProject, setSelectedProject] = useState(null)
 
   useEffect(() => {
-    localStorage.setItem('curs3xr_motion_pref', String(motionEnabled))
-    if (!motionEnabled) {
-      document.documentElement.setAttribute('data-motion', 'off')
-    } else {
-      document.documentElement.removeAttribute('data-motion')
-    }
-  }, [motionEnabled])
+    // Ensure reduced-motion overrides are cleared for maximum high-end fidelity
+    document.documentElement.removeAttribute('data-motion')
+  }, [])
 
   return (
     <div className="portfolio-app">
       {/* Subtle Analog Grain Texture Overlay */}
       <div className="noise-overlay" aria-hidden="true" />
 
-      {/* Interactive Cyber Swarm Particles (Toggleable via top header) */}
+      {/* Interactive Cyber Swarm Particles (Always active) */}
       <SwarmCanvas active={swarmActive} motionEnabled={motionEnabled} />
 
-      {/* Persistent Navigation */}
-      <Header
-        motionEnabled={motionEnabled}
-        setMotionEnabled={setMotionEnabled}
-        swarmActive={swarmActive}
-        setSwarmActive={setSwarmActive}
-      />
+      {/* Persistent Clean Navigation */}
+      <Header />
 
       {/* Main Content Flow */}
       <main id="main-content">
