@@ -126,9 +126,11 @@ export default function About({ motionEnabled }) {
               style={{
                 marginTop: '1rem',
                 padding: '1.5rem',
-                background: '#0d0d0d',
-                border: '1px solid #222',
-                borderRadius: '2px'
+                background: 'rgba(15, 15, 15, 0.75)',
+                backdropFilter: 'blur(12px)',
+                border: '1px solid rgba(227, 43, 60, 0.25)',
+                borderRadius: '14px',
+                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.45)'
               }}
             >
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--accent)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -152,25 +154,29 @@ export default function About({ motionEnabled }) {
         .pillar-card {
           display: flex;
           gap: 1.25rem;
-          padding: 1.5rem;
-          background: var(--bg-card);
+          padding: 1.6rem;
+          background: rgba(20, 20, 20, 0.7);
+          backdrop-filter: blur(12px);
           border: 1px solid var(--border-color);
-          border-radius: 2px;
-          transition: all 0.3s ease;
+          border-radius: 14px;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+          transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .pillar-card:hover {
-          border-color: var(--accent);
-          background: #171717;
+          border-color: rgba(227, 43, 60, 0.6);
+          background: rgba(26, 26, 26, 0.85);
           transform: translateY(-3px);
+          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55), 0 0 20px rgba(227, 43, 60, 0.2);
         }
 
         .pillar-icon {
           width: 44px;
           height: 44px;
           flex-shrink: 0;
-          background: #111;
-          border: 1px solid var(--border-color);
+          background: rgba(227, 43, 60, 0.08);
+          border: 1px solid rgba(227, 43, 60, 0.25);
+          border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;

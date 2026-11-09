@@ -98,24 +98,28 @@ export default function Experience({ motionEnabled }) {
         }
 
         .timeline-item {
-          background: var(--bg-card);
+          background: rgba(20, 20, 20, 0.7);
+          backdrop-filter: blur(14px);
           border: 1px solid var(--border-color);
           padding: 2rem 2.5rem;
-          border-radius: 2px;
+          border-radius: 16px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
           position: relative;
         }
 
         .timeline-item:hover {
-          border-color: rgba(227, 43, 60, 0.4);
-          background: #171717;
+          border-color: rgba(227, 43, 60, 0.5);
+          background: rgba(26, 26, 26, 0.85);
+          transform: translateY(-2px);
+          box-shadow: 0 14px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(227, 43, 60, 0.15);
         }
 
         .timeline-item.active {
           border-color: var(--accent);
-          background: #171717;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+          background: rgba(26, 26, 26, 0.95);
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(227, 43, 60, 0.2);
         }
 
         .timeline-header {

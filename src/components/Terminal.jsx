@@ -212,10 +212,10 @@ DEVELOPMENT ARSENAL:
       <style>{`
         .terminal-window {
           background: #080808;
-          border: 1px solid var(--border-color);
-          border-radius: 4px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 18px;
           overflow: hidden;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(227, 43, 60, 0.05);
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 45px rgba(227, 43, 60, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08);
           max-width: 900px;
           margin: 0 auto;
         }

@@ -176,18 +176,20 @@ export default function ProjectGrid({ onSelectProject, motionEnabled }) {
           font-family: var(--font-mono);
           font-size: 0.75rem;
           letter-spacing: 0.08em;
-          padding: 0.5rem 1rem;
-          background: #141414;
+          padding: 0.55rem 1.15rem;
+          background: rgba(20, 20, 20, 0.75);
+          backdrop-filter: blur(8px);
           border: 1px solid var(--border-color);
           color: var(--text-muted);
-          border-radius: 2px;
+          border-radius: 99px;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all 0.25s var(--ease-cinematic);
         }
 
         .category-btn:hover {
           border-color: var(--accent);
           color: var(--text-primary);
+          transform: translateY(-1px);
         }
 
         .category-btn.active {
@@ -195,17 +197,20 @@ export default function ProjectGrid({ onSelectProject, motionEnabled }) {
           border-color: var(--accent);
           color: #fff;
           font-weight: 600;
+          box-shadow: 0 4px 15px rgba(227, 43, 60, 0.4);
         }
 
         .search-box {
           display: flex;
           align-items: center;
           gap: 0.6rem;
-          background: #141414;
+          background: rgba(20, 20, 20, 0.75);
+          backdrop-filter: blur(8px);
           border: 1px solid var(--border-color);
-          padding: 0.5rem 1rem;
-          border-radius: 2px;
+          padding: 0.55rem 1.25rem;
+          border-radius: 99px;
           min-width: 260px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .search-box input {
@@ -229,18 +234,20 @@ export default function ProjectGrid({ onSelectProject, motionEnabled }) {
         }
 
         .project-card {
-          background: var(--bg-card);
+          background: rgba(20, 20, 20, 0.75);
+          backdrop-filter: blur(14px);
           border: 1px solid var(--border-color);
-          border-radius: 2px;
+          border-radius: 18px;
           overflow: hidden;
           cursor: pointer;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
           transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .project-card:hover {
-          border-color: var(--accent);
+          border-color: rgba(227, 43, 60, 0.6);
           transform: translateY(-5px);
-          box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(227, 43, 60, 0.2);
         }
 
         .project-cover-container {
@@ -271,6 +278,7 @@ export default function ProjectGrid({ onSelectProject, motionEnabled }) {
           background: rgba(9, 9, 9, 0.85);
           backdrop-filter: blur(8px);
           border: 1px solid var(--border-color);
+          border-radius: 6px;
           padding: 0.25rem 0.6rem;
           color: var(--accent);
         }
@@ -303,30 +311,34 @@ export default function ProjectGrid({ onSelectProject, motionEnabled }) {
         .tool-tag {
           font-family: var(--font-mono);
           font-size: 0.7rem;
-          background: #191919;
+          background: rgba(25, 25, 25, 0.85);
           border: 1px solid var(--border-color);
           color: #aaa;
-          padding: 0.2rem 0.5rem;
-          border-radius: 2px;
+          padding: 0.25rem 0.65rem;
+          border-radius: 6px;
         }
 
         .empty-state-box {
           text-align: center;
           padding: 5rem 2rem;
-          background: var(--bg-card);
-          border: 1px solid var(--border-color);
-          border-radius: 2px;
+          background: rgba(20, 20, 20, 0.7);
+          backdrop-filter: blur(14px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 18px;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .empty-state-icon {
           width: 70px;
           height: 70px;
-          background: #111;
-          border: 1px solid var(--border-color);
+          background: rgba(227, 43, 60, 0.08);
+          border: 1px solid rgba(227, 43, 60, 0.25);
+          border-radius: 14px;
           display: inline-flex;
           align-items: center;
           justify-content: center;
           margin-bottom: 1.5rem;
+          box-shadow: 0 0 20px rgba(227, 43, 60, 0.15);
         }
 
         @media (max-width: 768px) {

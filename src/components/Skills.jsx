@@ -74,7 +74,7 @@ export default function Skills({ motionEnabled }) {
         </div>
 
         {/* Tooling & Software Ecosystem */}
-        <div style={{ marginTop: '3.5rem', background: 'var(--bg-card)', border: '1px solid var(--border-color)', padding: '2.5rem', borderRadius: '2px' }}>
+        <div style={{ marginTop: '3.5rem', background: 'rgba(20, 20, 20, 0.75)', backdropFilter: 'blur(16px)', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '2.5rem', borderRadius: '18px', boxShadow: '0 15px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
             <Wrench size={16} color="var(--accent)" />
             <h4 style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem', letterSpacing: '0.12em', color: 'var(--text-primary)', textTransform: 'uppercase' }}>
@@ -88,14 +88,16 @@ export default function Skills({ motionEnabled }) {
                 style={{
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.82rem',
-                  padding: '0.5rem 1rem',
-                  background: '#191919',
+                  padding: '0.55rem 1.1rem',
+                  background: 'rgba(25, 25, 25, 0.8)',
+                  backdropFilter: 'blur(8px)',
                   border: '1px solid var(--border-color)',
                   color: 'var(--text-primary)',
-                  borderRadius: '2px',
+                  borderRadius: '10px',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.4rem'
+                  gap: '0.4rem',
+                  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)'
                 }}
               >
                 <span style={{ color: 'var(--accent)', fontSize: '0.7rem' }}>›</span>
@@ -114,10 +116,12 @@ export default function Skills({ motionEnabled }) {
         }
 
         .skills-block {
-          background: var(--bg-card);
+          background: rgba(20, 20, 20, 0.7);
+          backdrop-filter: blur(14px);
           border: 1px solid var(--border-color);
           padding: 2.5rem;
-          border-radius: 2px;
+          border-radius: 18px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .skills-block-header {
@@ -146,17 +150,21 @@ export default function Skills({ motionEnabled }) {
           display: flex;
           align-items: center;
           gap: 0.6rem;
-          background: #111;
+          background: rgba(18, 18, 18, 0.85);
           border: 1px solid var(--border-color);
-          padding: 0.75rem 1rem;
+          padding: 0.85rem 1.1rem;
           font-size: 0.88rem;
           color: var(--text-primary);
-          border-radius: 2px;
-          transition: border-color 0.2s ease;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+          transition: all 0.25s var(--ease-cinematic);
         }
 
         .skill-chip:hover {
-          border-color: var(--accent);
+          border-color: rgba(227, 43, 60, 0.6);
+          background: rgba(26, 26, 26, 0.95);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(227, 43, 60, 0.2);
         }
 
         @media (max-width: 800px) {

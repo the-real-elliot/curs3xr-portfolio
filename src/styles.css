@@ -189,48 +189,55 @@ section {
   transition: all 0.25s var(--ease-cinematic);
   position: relative;
   cursor: pointer;
-  border-radius: 2px;
+  border-radius: 12px; /* Smooth rounded corners */
 }
 
 .btn-primary {
-  background-color: var(--accent);
+  background: linear-gradient(135deg, #e32b3c 0%, #ba1828 100%);
   color: #fff;
-  border: 1px solid var(--accent);
-  box-shadow: 0 4px 20px var(--accent-glow);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 25px rgba(227, 43, 60, 0.35);
+  border-radius: 12px;
 }
 
 .btn-primary:hover {
-  background-color: #ff3347;
+  background: linear-gradient(135deg, #ff3b4d 0%, #d61e30 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(227, 43, 60, 0.4);
+  box-shadow: 0 12px 35px rgba(227, 43, 60, 0.55), 0 0 20px rgba(227, 43, 60, 0.25);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .btn-outline {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.03);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
 }
 
 .btn-outline:hover {
   border-color: var(--accent);
   color: var(--accent);
   transform: translateY(-2px);
-  background: var(--accent-dim);
+  background: rgba(227, 43, 60, 0.1);
+  box-shadow: 0 8px 25px rgba(227, 43, 60, 0.25);
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.35rem 0.75rem;
+  padding: 0.4rem 0.85rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: #191919;
+  background: rgba(24, 24, 24, 0.8);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--border-color);
-  border-radius: 9999px;
+  border-radius: 9999px; /* Smooth rounded pill */
   color: var(--text-muted);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .badge.active {

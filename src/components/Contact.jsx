@@ -244,24 +244,29 @@ export default function Contact({ motionEnabled }) {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 1rem 1.25rem;
-          background: var(--bg-card);
+          padding: 1.1rem 1.4rem;
+          background: rgba(20, 20, 20, 0.7);
+          backdrop-filter: blur(10px);
           border: 1px solid var(--border-color);
-          border-radius: 2px;
-          transition: all 0.25s ease;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+          transition: all 0.25s var(--ease-cinematic);
         }
 
         .social-row:hover {
-          border-color: var(--accent);
-          background: #171717;
+          border-color: rgba(227, 43, 60, 0.6);
+          background: rgba(26, 26, 26, 0.9);
           transform: translateX(4px);
+          box-shadow: 0 8px 25px rgba(227, 43, 60, 0.2);
         }
 
         .contact-form-card {
-          background: var(--bg-card);
-          border: 1px solid var(--border-color);
+          background: rgba(20, 20, 20, 0.75);
+          backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
           padding: 2.5rem;
-          border-radius: 2px;
+          border-radius: 18px;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
         }
 
         .form-group {
@@ -279,21 +284,22 @@ export default function Contact({ motionEnabled }) {
 
         .form-group input,
         .form-group textarea {
-          background: #0d0d0d;
+          background: rgba(13, 13, 13, 0.8);
           border: 1px solid var(--border-color);
-          padding: 0.85rem 1rem;
+          padding: 0.9rem 1.1rem;
           font-family: var(--font-body);
           font-size: 0.9rem;
           color: var(--text-primary);
-          border-radius: 2px;
+          border-radius: 10px;
           outline: none;
-          transition: border-color 0.2s ease;
+          transition: all 0.2s ease;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
           border-color: var(--accent);
-          box-shadow: 0 0 0 1px var(--accent-glow);
+          box-shadow: 0 0 0 2px var(--accent-glow);
+          background: rgba(18, 18, 18, 0.95);
         }
 
         @media (max-width: 850px) {

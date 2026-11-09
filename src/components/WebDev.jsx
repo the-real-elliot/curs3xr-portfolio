@@ -84,8 +84,11 @@ export default function WebDev({ motionEnabled }) {
           style={{
             marginTop: '3.5rem',
             padding: '2.5rem',
-            background: 'var(--bg-primary)',
-            border: '1px solid var(--border-color)',
+            background: 'rgba(20, 20, 20, 0.75)',
+            backdropFilter: 'blur(16px)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '18px',
+            boxShadow: '0 15px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -119,19 +122,22 @@ export default function WebDev({ motionEnabled }) {
         }
 
         .webdev-card {
-          background: var(--bg-card);
+          background: rgba(20, 20, 20, 0.7);
+          backdrop-filter: blur(14px);
           border: 1px solid var(--border-color);
-          padding: 2rem;
-          border-radius: 2px;
+          padding: 2.2rem;
+          border-radius: 16px;
           display: flex;
           flex-direction: column;
-          transition: all 0.3s ease;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+          transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .webdev-card:hover {
-          border-color: var(--accent);
-          background: #171717;
-          transform: translateY(-3px);
+          border-color: rgba(227, 43, 60, 0.6);
+          background: rgba(26, 26, 26, 0.85);
+          transform: translateY(-4px);
+          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(227, 43, 60, 0.2);
         }
 
         .webdev-card-header {
@@ -142,10 +148,11 @@ export default function WebDev({ motionEnabled }) {
         }
 
         .webdev-card-icon {
-          width: 40px;
-          height: 40px;
-          background: #111;
-          border: 1px solid var(--border-color);
+          width: 44px;
+          height: 44px;
+          background: rgba(227, 43, 60, 0.08);
+          border: 1px solid rgba(227, 43, 60, 0.25);
+          border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;

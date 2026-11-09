@@ -154,14 +154,16 @@ export default function Cybersecurity({ motionEnabled }) {
               <div
                 key={study.title}
                 style={{
-                  background: 'var(--bg-secondary)',
+                  background: 'rgba(20, 20, 20, 0.7)',
+                  backdropFilter: 'blur(12px)',
                   border: '1px solid var(--border-color)',
                   padding: '2rem',
-                  borderRadius: '2px',
+                  borderRadius: '16px',
+                  boxShadow: '0 12px 35px rgba(0, 0, 0, 0.45)',
                   position: 'relative'
                 }}
               >
-                <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--accent)', border: '1px solid var(--border-color)', padding: '0.2rem 0.6rem' }}>
+                <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--accent)', border: '1px solid rgba(227, 43, 60, 0.3)', borderRadius: '6px', padding: '0.2rem 0.6rem', background: 'rgba(227, 43, 60, 0.08)' }}>
                   ACTIVE LAB STUDY
                 </div>
                 <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', letterSpacing: '0.04em', color: 'var(--text-primary)', marginBottom: '0.2rem' }}>
@@ -194,19 +196,21 @@ export default function Cybersecurity({ motionEnabled }) {
         }
 
         .discipline-box {
-          background: var(--bg-card);
+          background: rgba(20, 20, 20, 0.75);
+          backdrop-filter: blur(14px);
           border: 1px solid var(--border-color);
           padding: 2rem;
-          border-radius: 2px;
+          border-radius: 16px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
           transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
           position: relative;
         }
 
         .discipline-box:hover {
           border-color: rgba(227, 43, 60, 0.6);
-          background: #171717;
+          background: rgba(26, 26, 26, 0.85);
           transform: translateY(-4px);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(227, 43, 60, 0.2);
         }
 
         .discipline-badge {
@@ -216,8 +220,8 @@ export default function Cybersecurity({ motionEnabled }) {
           letter-spacing: 0.1em;
           background: rgba(227, 43, 60, 0.08);
           padding: 0.25rem 0.6rem;
-          border-radius: 2px;
-          border: 1px solid rgba(227, 43, 60, 0.2);
+          border-radius: 6px;
+          border: 1px solid rgba(227, 43, 60, 0.25);
         }
 
         .discipline-title {
