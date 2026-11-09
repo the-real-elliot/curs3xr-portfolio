@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import { ArrowDown, MapPin, Sparkles } from 'lucide-react'
 import { siteConfig } from '../config/site'
@@ -12,13 +12,12 @@ export default function Hero({ motionEnabled }) {
     offset: ['start start', 'end start']
   })
 
-  const portraitScrollY = useTransform(scrollYProgress, [0, 1], [0, 90])
-  const textScrollY = useTransform(scrollYProgress, [0, 1], [0, -40])
-  const bgTextScrollY = useTransform(scrollYProgress, [0, 1], [0, 50])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0])
+  const portraitScrollY = useTransform(scrollYProgress, [0, 1], [0, 80])
+  const textScrollY = useTransform(scrollYProgress, [0, 1], [0, -35])
+  const bgTextScrollY = useTransform(scrollYProgress, [0, 1], [0, 45])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
 
-  // Mouse interactive 3D parallax tilt (smooth physics spring)
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  // Mouse interactive 3D parallax tilt (spring-damped physics)
   const springConfig = { damping: 25, stiffness: 120 }
   const tiltX = useSpring(0, springConfig)
   const tiltY = useSpring(0, springConfig)
@@ -32,10 +31,10 @@ export default function Hero({ motionEnabled }) {
       const { innerWidth, innerHeight } = window
       const x = (e.clientX / innerWidth - 0.5) * 2 // -1 to 1
       const y = (e.clientY / innerHeight - 0.5) * 2 // -1 to 1
-      tiltX.set(y * -6) // rotateX
-      tiltY.set(x * 8)  // rotateY
-      glowShiftX.set(x * -25)
-      glowShiftY.set(y * -15)
+      tiltX.set(y * -5) // smooth rotateX
+      tiltY.set(x * 6)  // smooth rotateY
+      glowShiftX.set(x * -20)
+      glowShiftY.set(y * -12)
     }
 
     window.addEventListener('mousemove', handleMouseMove)
@@ -46,18 +45,18 @@ export default function Hero({ motionEnabled }) {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.08, delayChildren: 0.25 }
+      transition: { staggerChildren: 0.08, delayChildren: 0.2 }
     }
   }
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 35 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
   }
 
   const fadeRight = {
-    hidden: { opacity: 0, x: 35 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
+    hidden: { opacity: 0, x: 30 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
   }
 
   return (
@@ -69,7 +68,7 @@ export default function Hero({ motionEnabled }) {
 
       {/* ══════════════════════════════════════════════════════════
           LAYER 1: GIANT "PORTFOLIO" BACKGROUND TEXT
-          Spans full width, rich dark crimson, perfectly centered
+          Full-width, rich dark crimson, perfectly centered
       ══════════════════════════════════════════════════════════ */}
       <motion.div
         className="hero-bg-word-wrap"
@@ -80,26 +79,27 @@ export default function Hero({ motionEnabled }) {
       </motion.div>
 
       {/* ══════════════════════════════════════════════════════════
-          LAYER 2: CENTER PORTRAIT (LANDSCAPE WIDE COMPOSITION)
-          Face mathematically dead-center, high-end 3D tilt shader,
-          multi-layer crimson volumetric rim-lights & backlights
+          LAYER 2: CENTER PORTRAIT STAGE (LANDSCAPE MIDDLE)
+          Uses 100% width + flexbox centering to avoid transform collisions.
+          Mathematically dead-center on desktop, prominently visible on phone.
       ══════════════════════════════════════════════════════════ */}
       <motion.div
         className="hero-portrait-stage"
         style={motionEnabled ? {
           y: portraitScrollY,
-          opacity: heroOpacity,
-          perspective: 1000
+          opacity: heroOpacity
         } : {}}
       >
-        {/* Volumetric Red Rim Backlight */}
-        <motion.div
-          className="hero-volumetric-glow"
-          style={motionEnabled ? { x: glowShiftX, y: glowShiftY } : {}}
-        />
-        <div className="hero-volumetric-core" />
+        {/* Volumetric Red Rim Backlight behind portrait */}
+        <div className="hero-volumetric-wrap">
+          <motion.div
+            className="hero-volumetric-glow"
+            style={motionEnabled ? { x: glowShiftX, y: glowShiftY } : {}}
+          />
+          <div className="hero-volumetric-core" />
+        </div>
 
-        {/* High-end 3D tilted portrait container */}
+        {/* 3D Tilted Portrait Frame */}
         <motion.div
           className="hero-portrait-frame"
           style={motionEnabled ? {
@@ -112,9 +112,9 @@ export default function Hero({ motionEnabled }) {
             src="/assets/portrait.png"
             alt={`${siteConfig.identity.displayName} portrait`}
             className="hero-portrait-img"
-            initial={motionEnabled ? { opacity: 0, scale: 1.06, y: 20 } : false}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+            initial={motionEnabled ? { opacity: 0, scale: 1.05 } : false}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
             loading="eager"
             width="900"
             height="1024"
@@ -284,16 +284,17 @@ export default function Hero({ motionEnabled }) {
 
         /* ══════════════════════════════════════════
            GIANT "PORTFOLIO" BACKGROUND TEXT
-           Visible, rich dark crimson, not opaque
+           Centered with 100% width to prevent transform collisions
         ══════════════════════════════════════════ */
         .hero-bg-word-wrap {
           position: absolute;
           top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          left: 0;
+          right: 0;
+          width: 100%;
+          margin-top: -0.5em;
           z-index: 2;
           pointer-events: none;
-          width: 100%;
           text-align: center;
           overflow: hidden;
         }
@@ -313,48 +314,52 @@ export default function Hero({ motionEnabled }) {
 
         /* ══════════════════════════════════════════
            CENTER PORTRAIT STAGE (LANDSCAPE MIDDLE)
+           100% width with flexbox centering:
+           IMMUNE to Framer Motion transform overrides!
         ══════════════════════════════════════════ */
         .hero-portrait-stage {
           position: absolute;
           z-index: 4;
-          left: 50%;
-          transform: translateX(-50%);
           bottom: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 88%;
           display: flex;
           align-items: flex-end;
           justify-content: center;
-          height: 88%;
-          width: auto;
           pointer-events: none;
         }
 
         /* Volumetric glowing aura behind the portrait */
-        .hero-volumetric-glow {
+        .hero-volumetric-wrap {
           position: absolute;
-          bottom: 12%;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 520px;
-          height: 520px;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(227, 43, 60, 0.38) 0%, rgba(227, 43, 60, 0.1) 45%, transparent 70%);
-          filter: blur(65px);
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           pointer-events: none;
           z-index: 0;
         }
 
+        .hero-volumetric-glow {
+          position: absolute;
+          bottom: 10%;
+          width: 520px;
+          height: 520px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(227, 43, 60, 0.42) 0%, rgba(227, 43, 60, 0.12) 45%, transparent 70%);
+          filter: blur(65px);
+        }
+
         .hero-volumetric-core {
           position: absolute;
-          bottom: 22%;
-          left: 50%;
-          transform: translateX(-50%);
+          bottom: 20%;
           width: 320px;
           height: 320px;
           border-radius: 50%;
-          background: radial-gradient(circle, rgba(255, 60, 80, 0.22) 0%, transparent 60%);
+          background: radial-gradient(circle, rgba(255, 60, 80, 0.25) 0%, transparent 60%);
           filter: blur(40px);
-          pointer-events: none;
-          z-index: 0;
         }
 
         .hero-portrait-frame {
@@ -631,17 +636,17 @@ export default function Hero({ motionEnabled }) {
         }
 
         /* ══════════════════════════════════════════
-           RESPONSIVE DESIGN (DESKTOP -> MOBILE)
+           RESPONSIVE DESIGN (DESKTOP -> TABLET -> PHONE)
         ══════════════════════════════════════════ */
 
         /* Laptop / Medium Desktop (<= 1200px) */
         @media (max-width: 1200px) {
           .hero-portrait-stage {
-            height: 78%;
+            height: 82%;
           }
 
           .hero-portrait-img {
-            opacity: 0.75;
+            opacity: 0.85;
           }
 
           .hero-stats-group {
@@ -682,52 +687,118 @@ export default function Hero({ motionEnabled }) {
           }
 
           .hero-portrait-stage {
-            height: 65%;
+            height: 75vh;
+            z-index: 3;
           }
 
           .hero-portrait-img {
-            opacity: 0.45;
+            opacity: 0.85;
           }
 
           .hero-bg-word {
             font-size: clamp(5rem, 18vw, 12rem);
-            color: rgba(215, 30, 48, 0.28);
+            color: rgba(215, 30, 48, 0.35);
           }
         }
 
         /* Mobile Phone (<= 640px) */
+        /* PROMINENT, VIVID, CLEARLY VISIBLE PORTRAIT ON PHONE */
         @media (max-width: 640px) {
+          .hero-root {
+            min-height: 100svh;
+            padding-top: 80px;
+          }
+
+          .hero-overlay {
+            padding-top: 40px;
+            padding-bottom: 40px;
+          }
+
+          .hero-wide-container {
+            padding: 0 1.5rem;
+            gap: 2rem;
+          }
+
+          /* The portrait is prominent, centered, and fully visible on phone */
           .hero-portrait-stage {
-            height: 55%;
+            height: 72vh;
+            bottom: 0;
+            z-index: 3;
+            opacity: 1 !important;
           }
 
           .hero-portrait-img {
-            opacity: 0.35;
+            opacity: 0.88 !important; /* Clearly visible, NOT hidden! */
+            max-height: 72vh;
+            filter:
+              drop-shadow(0 15px 35px rgba(0, 0, 0, 0.95))
+              drop-shadow(0 0 45px rgba(227, 43, 60, 0.4));
+          }
+
+          /* Text has strong shadows to contrast over background/portrait */
+          .hero-left-col {
+            z-index: 10;
           }
 
           .hero-title {
-            font-size: clamp(3.2rem, 15vw, 4.8rem);
+            font-size: clamp(3.4rem, 16vw, 4.8rem);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 0.9);
+          }
+
+          .hero-subtitle {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+          }
+
+          .hero-description {
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+            background: rgba(9, 9, 9, 0.45);
+            backdrop-filter: blur(6px);
+            padding: 0.6rem 0.85rem;
+            border-radius: 8px;
+            border-left: 2px solid var(--accent);
           }
 
           .hero-bg-word {
-            font-size: clamp(3.8rem, 20vw, 7.5rem);
-            color: rgba(215, 30, 48, 0.22);
+            font-size: clamp(4.2rem, 22vw, 8rem);
+            color: rgba(215, 30, 48, 0.35);
+          }
+
+          .hero-right-col {
+            z-index: 10;
+            width: 100%;
+            align-items: flex-start;
+            gap: 1.25rem;
           }
 
           .hero-stats-group {
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.5rem;
+            width: 100%;
+            background: rgba(14, 14, 14, 0.65);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 0.75rem 1.25rem;
           }
 
           .hero-stat-row {
-            padding: 0.75rem 0;
+            padding: 0.6rem 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          }
+
+          .hero-stat-row:first-child {
+            border-top: none;
+          }
+
+          .hero-stat-num {
+            font-size: 2.6rem;
+            min-width: 80px;
           }
 
           .hero-volumetric-glow,
           .hero-volumetric-core {
-            width: 240px;
-            height: 240px;
+            width: 280px;
+            height: 280px;
           }
         }
       `}</style>
