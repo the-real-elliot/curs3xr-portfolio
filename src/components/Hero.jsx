@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
-import { ArrowDown, MapPin, Sparkles } from 'lucide-react'
+import { ArrowDown, MapPin, Sparkles, Terminal as TerminalIcon, Shield } from 'lucide-react'
 import { siteConfig } from '../config/site'
+import CosmicNebulaCanvas from './CosmicNebulaCanvas'
 
 export default function Hero({ motionEnabled }) {
   const sectionRef = useRef(null)
@@ -62,9 +63,14 @@ export default function Hero({ motionEnabled }) {
   // Portrait Stage component reusable for both landscape desktop and centered mobile
   const renderPortraitStage = (isMobile = false) => (
     <div className={`hero-cosmic-stage ${isMobile ? 'hero-stage-mobile' : 'hero-stage-desktop'}`}>
-      {/* Cosmic Neon Aura: Electric Blue + Purple + Godrays Volumetric Bloom */}
+      
+      {/* ── VIDEO-RENDERED COSMIC NEON AURA (SLOW PROCEDURAL FLUID LIGHT DRIFT) ── */}
       <div className="hero-cosmic-aura-wrap">
-        {/* Broad cosmic gradient bloom (soft circle, zero hard lines) */}
+        
+        {/* Procedural Living Cosmic Fluid Nebula Canvas (Smooth slow color drift: Purple -> Blue -> Cyan -> Crimson) */}
+        <CosmicNebulaCanvas motionEnabled={motionEnabled} isMobile={isMobile} />
+
+        {/* Broad cosmic gradient bloom (soft ambient halo) */}
         <motion.div
           className="hero-cosmic-glow-outer"
           style={motionEnabled && !isMobile ? { x: auraShiftX, y: auraShiftY } : {}}
@@ -113,8 +119,19 @@ export default function Hero({ motionEnabled }) {
   return (
     <section ref={sectionRef} id="home" className="hero-root">
 
-      {/* ── Background Deep Radial Ambient Vignette (Silky, no grid squares) ── */}
+      {/* ── Background Deep Radial Ambient Vignette ── */}
       <div className="hero-smooth-ambient" />
+
+      {/* ── High-End Cybernetic Horizon Materiality & Corner HUD Marks ── */}
+      <div className="hero-cyber-material" aria-hidden="true">
+        <div className="hero-horizon-glow" />
+        <div className="hero-hud-mark hud-mark-tl">
+          <span>// CURS3XR.SEC_SYS [v3.4]</span>
+        </div>
+        <div className="hero-hud-mark hud-mark-br">
+          <span>[LAT: 28.6139° N // LONG: 77.2090° E]</span>
+        </div>
+      </div>
 
       {/* ══════════════════════════════════════════════════════════
           LAYER 1: GIANT "PORTFOLIO" BACKGROUND WORDMARK
@@ -217,7 +234,7 @@ export default function Hero({ motionEnabled }) {
               <span>AVAILABLE FOR NEW PROJECTS</span>
             </motion.div>
 
-            {/* Quote badge with smooth rounded corners & soft shadow */}
+            {/* Quote badge with luxury frosted glass & soft shadow */}
             <motion.div variants={motionEnabled ? fadeRight : {}} className="hero-quote-pill">
               <Sparkles size={14} className="text-accent flex-shrink-0" />
               <div>
@@ -226,9 +243,13 @@ export default function Hero({ motionEnabled }) {
               </div>
             </motion.div>
 
-            {/* 3 Authentic High-Impact Stats with Smooth Rounded Card & Soft Shadows */}
+            {/* 3 Authentic High-Impact Stats with Luxury Frosted Card Material */}
             <motion.div variants={motionEnabled ? fadeRight : {}} className="hero-stats-group">
               
+              {/* Tactical Cyber Corner Accents */}
+              <div className="hero-stats-bracket-tl" />
+              <div className="hero-stats-bracket-br" />
+
               {/* Stat 1 */}
               <div className="hero-stat-row">
                 <div className="hero-stat-num">
@@ -268,11 +289,18 @@ export default function Hero({ motionEnabled }) {
         </div>
       </motion.div>
 
-      {/* Seamless bottom fade into next section */}
-      <div className="hero-bottom-fade" />
+      {/* ── High-End Cyber Horizon Seam with Embedded Telemetry ── */}
+      <div className="hero-bottom-cyber-seam" aria-hidden="true">
+        <div className="hero-seam-laser" />
+        <div className="hero-seam-telemetry">
+          <span className="hero-seam-chip">[CORE_ENGINE: ACTIVE]</span>
+          <span className="hero-seam-chip">[COSMIC_VOLUMETRICS: 60FPS]</span>
+          <span className="hero-seam-chip">[STATUS: SECURE]</span>
+        </div>
+      </div>
 
       {/* ══════════════════════════════════════════════════════════
-          HERO STYLES (SMOOTH ROUNDED CORNERS, SOFT NEON SHADOWS)
+          HERO STYLES (LUXURY GLASS MATERIALITY & VIDEO-RENDERED NEBULA)
       ══════════════════════════════════════════════════════════ */}
       <style>{`
         .hero-root {
@@ -283,11 +311,11 @@ export default function Hero({ motionEnabled }) {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #090909;
+          background: #09090b;
           border-bottom: 1px solid var(--border-color);
         }
 
-        /* Silky smooth ambient radial vignette (deep velvet black, no grid squares) */
+        /* Silky smooth ambient radial vignette */
         .hero-smooth-ambient {
           position: absolute;
           inset: 0;
@@ -298,11 +326,38 @@ export default function Hero({ motionEnabled }) {
             radial-gradient(circle at 50% 60%, rgba(106, 13, 173, 0.05) 0%, transparent 60%);
         }
 
+        /* ──── HIGH-END CYBERNETIC MATERIALITY ──── */
+        .hero-cyber-material {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+        }
+
+        .hero-horizon-glow {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 180px;
+          background: radial-gradient(ellipse 70% 100% at 50% 100%, rgba(138, 43, 226, 0.08) 0%, rgba(227, 43, 60, 0.05) 45%, transparent 75%);
+        }
+
+        .hero-hud-mark {
+          position: absolute;
+          font-family: var(--font-mono);
+          font-size: 0.64rem;
+          letter-spacing: 0.14em;
+          color: rgba(255, 255, 255, 0.2);
+          text-transform: uppercase;
+        }
+        .hud-mark-tl { top: 6rem; left: clamp(1.5rem, 4vw, 4rem); }
+        .hud-mark-br { bottom: 1.8rem; right: clamp(1.5rem, 4vw, 4rem); }
+
         /* ══════════════════════════════════════════
            GIANT "PORTFOLIO" BACKGROUND WORDMARK
            Smooth outline + cosmic gradient tint + radial feather mask:
            Completely dissolves any rectangular letter stems!
-           Zero hard boxy cutoffs, zero color clashing!
         ══════════════════════════════════════════ */
         .hero-bg-word-wrap {
           position: absolute;
@@ -314,7 +369,6 @@ export default function Hero({ motionEnabled }) {
           z-index: 2;
           pointer-events: none;
           text-align: center;
-          /* Radial elliptical mask feathers softly in all directions */
           mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.45) 60%, transparent 95%);
           -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.45) 60%, transparent 95%);
         }
@@ -325,10 +379,8 @@ export default function Hero({ motionEnabled }) {
           line-height: 0.85;
           letter-spacing: 0.05em;
           text-transform: uppercase;
-          /* Hollow stroke styling with rounded joins: zero solid rectangular blocks */
           color: transparent;
           -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.16);
-          /* Subtle cosmic glass body tint */
           background: linear-gradient(
             90deg,
             rgba(227, 43, 60, 0.12) 0%,
@@ -338,7 +390,6 @@ export default function Hero({ motionEnabled }) {
           );
           -webkit-background-clip: text;
           background-clip: text;
-          /* Soft, rounded, diffuse glowing drop-shadows */
           filter:
             drop-shadow(0 0 35px rgba(168, 45, 245, 0.3))
             drop-shadow(0 0 65px rgba(227, 43, 60, 0.22))
@@ -375,12 +426,11 @@ export default function Hero({ motionEnabled }) {
           justify-content: center;
         }
 
-        /* Mobile stage wrapper is hidden on desktop by default */
         .hero-mobile-stage-wrapper {
           display: none;
         }
 
-        /* ──── COSMIC NEON AURA (BLUE & PURPLE, ZERO HARD RECTANGLES) ──── */
+        /* ──── COSMIC NEON AURA (VIDEO-RENDERED FLUID MOVEMENT) ──── */
         .hero-cosmic-aura-wrap {
           position: absolute;
           inset: 0;
@@ -391,50 +441,50 @@ export default function Hero({ motionEnabled }) {
           z-index: 0;
         }
 
-        /* Outer blended aura (soft circle, zero hard lines, blends with background red) */
+        /* Outer blended aura halo */
         .hero-cosmic-glow-outer {
           position: absolute;
-          bottom: 12%;
-          width: 650px;
-          height: 650px;
+          bottom: 10%;
+          width: 660px;
+          height: 660px;
           border-radius: 50%;
           background: radial-gradient(circle at 50% 50%,
-            rgba(120, 20, 200, 0.5) 0%,
-            rgba(75, 15, 175, 0.35) 30%,
-            rgba(227, 43, 60, 0.18) 58%,
+            rgba(120, 20, 200, 0.42) 0%,
+            rgba(75, 15, 175, 0.28) 32%,
+            rgba(227, 43, 60, 0.15) 58%,
             transparent 75%
           );
-          filter: blur(80px);
-          animation: cosmicPulse 6s ease-in-out infinite alternate;
+          filter: blur(85px);
+          animation: cosmicPulse 8s ease-in-out infinite alternate;
         }
 
-        /* Electric Blue Right Rim Light Orb (soft circle) */
+        /* Electric Blue Right Rim Light Orb */
         .hero-cosmic-glow-blue {
           position: absolute;
-          bottom: 15%;
-          left: calc(50% + 35px);
+          bottom: 14%;
+          left: calc(50% + 30px);
           width: 420px;
           height: 520px;
           border-radius: 50%;
           background: radial-gradient(circle at 60% 40%,
-            rgba(26, 85, 255, 0.55) 0%,
-            rgba(0, 195, 255, 0.25) 35%,
+            rgba(26, 85, 255, 0.5) 0%,
+            rgba(0, 195, 255, 0.22) 35%,
             transparent 70%
           );
           filter: blur(65px);
         }
 
-        /* Vivid Cosmic Purple Left Rim Light Orb (soft circle) */
+        /* Vivid Cosmic Purple Left Rim Light Orb */
         .hero-cosmic-glow-purple {
           position: absolute;
-          bottom: 17%;
-          right: calc(50% + 35px);
+          bottom: 16%;
+          right: calc(50% + 30px);
           width: 420px;
           height: 520px;
           border-radius: 50%;
           background: radial-gradient(circle at 40% 40%,
-            rgba(168, 45, 245, 0.6) 0%,
-            rgba(110, 15, 180, 0.3) 40%,
+            rgba(168, 45, 245, 0.55) 0%,
+            rgba(110, 15, 180, 0.28) 40%,
             transparent 70%
           );
           filter: blur(65px);
@@ -444,19 +494,19 @@ export default function Hero({ motionEnabled }) {
         .hero-cosmic-godrays {
           position: absolute;
           bottom: 22%;
-          width: 560px;
-          height: 440px;
+          width: 580px;
+          height: 460px;
           border-radius: 50%;
           background:
             conic-gradient(from 180deg at 50% 100%,
               transparent 0deg,
-              rgba(147, 51, 234, 0.18) 35deg,
+              rgba(147, 51, 234, 0.16) 35deg,
               transparent 65deg,
-              rgba(37, 99, 235, 0.22) 110deg,
+              rgba(37, 99, 235, 0.2) 110deg,
               transparent 145deg,
-              rgba(227, 43, 60, 0.15) 180deg
+              rgba(227, 43, 60, 0.14) 180deg
             );
-          filter: blur(45px);
+          filter: blur(48px);
           opacity: 0.9;
           mask-image: radial-gradient(circle at 50% 100%, black 40%, transparent 80%);
           -webkit-mask-image: radial-gradient(circle at 50% 100%, black 40%, transparent 80%);
@@ -464,7 +514,7 @@ export default function Hero({ motionEnabled }) {
 
         @keyframes cosmicPulse {
           0% { transform: scale(0.96); opacity: 0.85; }
-          100% { transform: scale(1.05); opacity: 1; }
+          100% { transform: scale(1.04); opacity: 1; }
         }
 
         /* Portrait Frame with Continuous Lifelike Floating / Breathing Motion */
@@ -487,7 +537,7 @@ export default function Hero({ motionEnabled }) {
           }
         }
 
-        /* Portrait with Cosmic Neon Dual Rim Lighting Drop-Shadows (Soft, blended) */
+        /* Portrait with Cosmic Neon Dual Rim Lighting Drop-Shadows */
         .hero-portrait-img {
           position: relative;
           z-index: 1;
@@ -594,19 +644,24 @@ export default function Hero({ motionEnabled }) {
           margin-bottom: 1.5rem;
         }
 
-        /* Description card with smooth rounded corners & soft shadow */
+        /* Luxury Frosted Description Card */
         .hero-description {
           font-size: clamp(0.88rem, 1.05vw, 1rem);
-          color: var(--text-muted);
+          color: #d1d5db;
           line-height: 1.7;
           margin-bottom: 2rem;
           max-width: 380px;
-          background: rgba(18, 18, 18, 0.5);
-          backdrop-filter: blur(10px);
-          padding: 0.9rem 1.2rem;
+          background: linear-gradient(135deg, rgba(22, 22, 28, 0.7) 0%, rgba(14, 14, 18, 0.6) 100%);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          padding: 1rem 1.35rem;
           border-radius: 14px;
+          border: 1px solid rgba(255, 255, 255, 0.12);
           border-left: 3px solid var(--accent);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+          box-shadow:
+            0 20px 45px rgba(0, 0, 0, 0.7),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12),
+            0 0 25px rgba(227, 43, 60, 0.12);
         }
 
         .hero-cta-wrap {
@@ -624,19 +679,19 @@ export default function Hero({ motionEnabled }) {
           font-weight: 600;
           color: #ffffff;
           background: linear-gradient(135deg, #e32b3c 0%, #c41829 100%);
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.18);
           border-radius: 12px;
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
           text-decoration: none;
-          box-shadow: 0 10px 30px rgba(227, 43, 60, 0.38), 0 2px 8px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 10px 30px rgba(227, 43, 60, 0.42), 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
         .hero-cta-btn:hover {
           background: linear-gradient(135deg, #ff3b4d 0%, #d61e30 100%);
           transform: translateY(-2px);
-          box-shadow: 0 14px 40px rgba(227, 43, 60, 0.55), 0 0 25px rgba(227, 43, 60, 0.3);
-          border-color: rgba(255, 255, 255, 0.35);
+          box-shadow: 0 14px 40px rgba(227, 43, 60, 0.6), 0 0 25px rgba(227, 43, 60, 0.35);
+          border-color: rgba(255, 255, 255, 0.4);
         }
 
         .hero-location {
@@ -668,26 +723,31 @@ export default function Hero({ motionEnabled }) {
           font-family: var(--font-mono);
           font-size: 0.72rem;
           letter-spacing: 0.1em;
-          color: var(--text-muted);
+          color: #e5e7eb;
           text-transform: uppercase;
-          background: rgba(18, 18, 18, 0.65);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: linear-gradient(135deg, rgba(20, 20, 26, 0.75) 0%, rgba(12, 12, 16, 0.65) 100%);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 99px;
-          padding: 0.45rem 1.1rem;
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+          padding: 0.5rem 1.2rem;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
 
         .hero-quote-pill {
           display: flex;
           align-items: center;
           gap: 0.75rem;
-          background: rgba(18, 18, 18, 0.75);
-          backdrop-filter: blur(16px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: linear-gradient(135deg, rgba(26, 26, 32, 0.8) 0%, rgba(16, 16, 20, 0.7) 100%);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.14);
           border-radius: 99px;
           padding: 0.85rem 1.7rem;
-          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(138, 43, 226, 0.18);
+          box-shadow:
+            0 15px 35px rgba(0, 0, 0, 0.6),
+            0 0 25px rgba(138, 43, 226, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12);
         }
 
         .hero-quote-t1 {
@@ -702,18 +762,47 @@ export default function Hero({ motionEnabled }) {
           color: var(--text-primary);
         }
 
-        /* 3 Big Stats with Smooth Rounded Corners & Soft Shadows */
+        /* 3 Big Stats with Luxury Frosted Card Material */
         .hero-stats-group {
+          position: relative;
           display: flex;
           flex-direction: column;
           width: 100%;
           max-width: 320px;
-          background: rgba(18, 18, 18, 0.65);
-          backdrop-filter: blur(18px);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 18px;
-          padding: 0.75rem 1.4rem;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+          background: linear-gradient(160deg, rgba(24, 24, 30, 0.78) 0%, rgba(14, 14, 18, 0.68) 100%);
+          backdrop-filter: blur(24px) saturate(190%);
+          -webkit-backdrop-filter: blur(24px) saturate(190%);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 20px;
+          padding: 0.85rem 1.5rem;
+          box-shadow:
+            0 25px 60px rgba(0, 0, 0, 0.8),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            0 0 35px rgba(138, 43, 226, 0.15);
+        }
+
+        /* Tactical Cyber Corner Brackets */
+        .hero-stats-bracket-tl {
+          position: absolute;
+          top: 8px;
+          left: 8px;
+          width: 10px;
+          height: 10px;
+          border-top: 1.5px solid var(--accent);
+          border-left: 1.5px solid var(--accent);
+          border-top-left-radius: 4px;
+          opacity: 0.7;
+        }
+
+        .hero-stats-bracket-br {
+          position: absolute;
+          bottom: 8px;
+          right: 8px;
+          width: 10px;
+          height: 10px;
+          border-bottom: 1.5px solid rgba(37, 99, 235, 0.7);
+          border-right: 1.5px solid rgba(37, 99, 235, 0.7);
+          border-bottom-right-radius: 4px;
         }
 
         .hero-stat-row {
@@ -741,6 +830,7 @@ export default function Hero({ motionEnabled }) {
           flex-shrink: 0;
           min-width: 95px;
           text-align: right;
+          text-shadow: 0 0 25px rgba(227, 43, 60, 0.4);
         }
 
         .hero-stat-plus {
@@ -768,16 +858,50 @@ export default function Hero({ motionEnabled }) {
           color: var(--text-muted);
         }
 
-        /* Bottom fade */
-        .hero-bottom-fade {
+        /* ──── HIGH-END CYBER HORIZON SEAM WITH EMBEDDED TELEMETRY ──── */
+        .hero-bottom-cyber-seam {
           position: absolute;
           bottom: 0;
           left: 0;
+          right: 0;
           width: 100%;
-          height: 110px;
-          background: linear-gradient(to top, #090909 0%, rgba(9,9,9,0.7) 40%, transparent 100%);
-          z-index: 9;
+          height: 48px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: center;
+          z-index: 10;
           pointer-events: none;
+        }
+
+        .hero-seam-laser {
+          width: 100%;
+          height: 1px;
+          background: linear-gradient(
+            90deg,
+            transparent 5%,
+            rgba(227, 43, 60, 0.45) 25%,
+            rgba(168, 45, 245, 0.65) 50%,
+            rgba(37, 99, 235, 0.45) 75%,
+            transparent 95%
+          );
+          box-shadow:
+            0 0 15px rgba(168, 45, 245, 0.5),
+            0 0 30px rgba(227, 43, 60, 0.3);
+        }
+
+        .hero-seam-telemetry {
+          display: flex;
+          gap: 1.5rem;
+          padding: 0.4rem 0;
+        }
+
+        .hero-seam-chip {
+          font-family: var(--font-mono);
+          font-size: 0.62rem;
+          letter-spacing: 0.12em;
+          color: rgba(255, 255, 255, 0.28);
+          text-transform: uppercase;
         }
 
         /* ══════════════════════════════════════════
@@ -846,6 +970,14 @@ export default function Hero({ motionEnabled }) {
             display: flex;
             flex-direction: column;
             align-items: center;
+          }
+
+          .hero-hud-mark {
+            display: none;
+          }
+
+          .hero-seam-telemetry {
+            display: none;
           }
 
           /* Hide desktop absolute stage on mobile so it NEVER collides */
@@ -967,8 +1099,7 @@ export default function Hero({ motionEnabled }) {
             justify-content: center;
           }
 
-          /* Right column & Stats on Mobile:
-             Smooth rounded card with soft shadows below the portrait */
+          /* Right column & Stats on Mobile */
           .hero-right-col {
             width: 100%;
             max-width: 100%;
@@ -987,12 +1118,12 @@ export default function Hero({ motionEnabled }) {
             max-width: 100%;
             flex-direction: row;
             justify-content: space-around;
-            background: rgba(18, 18, 18, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: linear-gradient(160deg, rgba(24, 24, 30, 0.8) 0%, rgba(14, 14, 18, 0.7) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 18px;
             padding: 1rem 0.6rem;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
           }
 
           .hero-stat-row {

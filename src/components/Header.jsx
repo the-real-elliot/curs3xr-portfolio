@@ -82,16 +82,19 @@ export default function Header() {
 
   return (
     <header
+      className="site-header"
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         zIndex: 100,
-        backgroundColor: scrolled ? 'rgba(9, 9, 9, 0.94)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(20px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(227, 43, 60, 0.2)' : '1px solid transparent',
-        transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)'
+        backgroundColor: scrolled ? 'rgba(9, 9, 12, 0.82)' : 'rgba(9, 9, 12, 0.68)',
+        backdropFilter: 'blur(30px) saturate(190%)',
+        WebkitBackdropFilter: 'blur(30px) saturate(190%)',
+        borderBottom: scrolled ? '1px solid rgba(227, 43, 60, 0.25)' : '1px solid rgba(255, 255, 255, 0.08)',
+        boxShadow: scrolled ? '0 12px 35px rgba(0, 0, 0, 0.65)' : '0 4px 20px rgba(0, 0, 0, 0.4)',
+        transition: 'all 0.35s cubic-bezier(0.22, 1, 0.36, 1)'
       }}
     >
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '80px' }}>
@@ -176,20 +179,23 @@ export default function Header() {
             <ArrowUpRight size={14} />
           </a>
 
-          {/* Mobile Menu Hamburger with Rotation Transition */}
+          {/* Mobile Menu Hamburger with Glassmorphic Button */}
           <motion.button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation menu"
             className="mobile-hamburger"
             whileTap={{ scale: 0.9 }}
             style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '8px',
+              background: 'rgba(255, 255, 255, 0.08)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: '10px',
               color: 'var(--text-primary)',
               cursor: 'pointer',
               display: 'flex',
-              padding: '0.6rem'
+              padding: '0.65rem',
+              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.4)'
             }}
           >
             {mobileMenuOpen ? <X size={24} className="text-accent" /> : <Menu size={24} />}
@@ -197,7 +203,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* High-End Mobile Drawer Menu with Staggered Entrance */}
+      {/* High-End Mobile Drawer Menu with Ultra-High-Level Glass Blur */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -205,39 +211,48 @@ export default function Header() {
             initial="hidden"
             animate="visible"
             exit="exit"
+            className="mobile-drawer-menu"
             style={{
-              backgroundColor: 'rgba(9, 9, 9, 0.96)',
-              backdropFilter: 'blur(30px)',
-              borderBottom: '1px solid rgba(227, 43, 60, 0.3)',
-              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.8)',
+              backgroundColor: 'rgba(9, 9, 12, 0.80)',
+              backdropFilter: 'blur(45px) saturate(210%)',
+              WebkitBackdropFilter: 'blur(45px) saturate(210%)',
+              borderBottom: '1px solid rgba(227, 43, 60, 0.35)',
+              boxShadow: '0 30px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(227, 43, 60, 0.18)',
               overflow: 'hidden'
             }}
           >
             <div className="container" style={{ padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              {navLinks.map((link) => (
-                <motion.a
-                  key={link.name}
-                  variants={menuItemVariants}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '1.85rem',
-                    letterSpacing: '0.06em',
-                    color: activeSection === link.href.replace('#', '') ? 'var(--accent)' : 'var(--text-primary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '0.2rem 0',
-                    borderBottom: '1px solid rgba(255, 255, 255, 0.04)'
-                  }}
-                >
-                  <span>{link.name}</span>
-                  {activeSection === link.href.replace('#', '') && (
-                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent)', boxShadow: '0 0 10px var(--accent)' }} />
-                  )}
-                </motion.a>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href.replace('#', '')
+                return (
+                  <motion.a
+                    key={link.name}
+                    variants={menuItemVariants}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '1.85rem',
+                      letterSpacing: '0.06em',
+                      color: isActive ? 'var(--accent)' : 'var(--text-primary)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '0.4rem 0.8rem',
+                      borderRadius: '8px',
+                      background: isActive ? 'rgba(227, 43, 60, 0.12)' : 'transparent',
+                      borderLeft: isActive ? '3px solid var(--accent)' : '3px solid transparent',
+                      borderBottom: '1px solid rgba(255, 255, 255, 0.04)',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <span>{link.name}</span>
+                    {isActive && (
+                      <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent)', boxShadow: '0 0 10px var(--accent)' }} />
+                    )}
+                  </motion.a>
+                )
+              })}
 
               <motion.div
                 variants={menuItemVariants}
