@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import LoadingScreen from './components/LoadingScreen'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -17,6 +18,7 @@ export default function App() {
   // High-end VFX & animations permanently active
   const motionEnabled = true
   const swarmActive = true
+  const [isLoading, setIsLoading] = useState(true)
   const [selectedProject, setSelectedProject] = useState(null)
 
   useEffect(() => {
@@ -26,6 +28,11 @@ export default function App() {
 
   return (
     <div className="portfolio-app">
+      {/* High-End Cyber Preloader */}
+      {isLoading && (
+        <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
+      )}
+
       {/* Interactive Cyber Swarm Particles (Always active, in background) */}
       <SwarmCanvas active={swarmActive} motionEnabled={motionEnabled} />
 
