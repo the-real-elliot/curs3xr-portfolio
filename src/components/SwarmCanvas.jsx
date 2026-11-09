@@ -22,7 +22,7 @@ export default function SwarmCanvas({ active, motionEnabled }) {
     window.addEventListener('resize', handleResize)
 
     // Swarm particles configuration
-    const particleCount = window.innerWidth < 768 ? 40 : 90
+    const particleCount = window.innerWidth < 768 ? 35 : 75
     const particles = []
 
     const mouse = {
@@ -54,43 +54,47 @@ export default function SwarmCanvas({ active, motionEnabled }) {
       reset() {
         this.x = Math.random() * width
         this.y = Math.random() * height
-        this.vx = (Math.random() - 0.5) * 1.5
-        this.vy = (Math.random() - 0.5) * 1.5
-        this.radius = Math.random() * 2 + 0.8
-        this.alpha = Math.random() * 0.45 + 0.15
+        this.vx = (Math.random() - 0.5) * 1.2
+        this.vy = (Math.random() - 0.5) * 1.2
+        this.radius = Math.random() * 1.8 + 0.6
+        this.alpha = Math.random() * 0.4 + 0.12
         this.baseAlpha = this.alpha
-        this.color = Math.random() > 0.4 ? '227, 43, 60' : '242, 239, 235'
+        // Cosmic blue, purple, and crimson particle palette
+        const rand = Math.random()
+        if (rand > 0.6) {
+          this.color = '227, 43, 60'   // Crimson
+        } else if (rand > 0.3) {
+          this.color = '138, 43, 226'  // Cosmic purple
+        } else {
+          this.color = '30, 100, 255'  // Electric blue
+        }
       }
 
       update() {
-        // Natural wander
         this.x += this.vx
         this.y += this.vy
 
-        // Screen wrap
         if (this.x < 0) this.x = width
         if (this.x > width) this.x = 0
         if (this.y < 0) this.y = height
         if (this.y > height) this.y = 0
 
-        // Attraction to mouse cursor when near
         if (mouse.active) {
           const dx = mouse.x - this.x
           const dy = mouse.y - this.y
           const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < 220) {
-            const force = (220 - dist) / 220
-            this.vx += (dx / dist) * force * 0.08
-            this.vy += (dy / dist) * force * 0.08
-            this.alpha = Math.min(0.85, this.baseAlpha + force * 0.4)
+          if (dist < 200) {
+            const force = (200 - dist) / 200
+            this.vx += (dx / dist) * force * 0.06
+            this.vy += (dy / dist) * force * 0.06
+            this.alpha = Math.min(0.75, this.baseAlpha + force * 0.35)
           } else {
             this.alpha = this.baseAlpha
           }
         }
 
-        // Dampen velocity to prevent runaway speed
-        this.vx *= 0.98
-        this.vy *= 0.98
+        this.vx *= 0.985
+        this.vy *= 0.985
       }
 
       draw() {
@@ -106,25 +110,24 @@ export default function SwarmCanvas({ active, motionEnabled }) {
     }
 
     const render = () => {
-      // Smooth mouse interpolation
-      mouse.x += (mouse.targetX - mouse.x) * 0.1
-      mouse.y += (mouse.targetY - mouse.y) * 0.1
+      mouse.x += (mouse.targetX - mouse.x) * 0.08
+      mouse.y += (mouse.targetY - mouse.y) * 0.08
 
       ctx.clearRect(0, 0, width, height)
 
-      // Draw faint connection webs between proximate particles
+      // Draw faint connections between proximate particles
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x
           const dy = particles[i].y - particles[j].y
           const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < 90) {
-            const alpha = (1 - dist / 90) * 0.12
+          if (dist < 85) {
+            const alpha = (1 - dist / 85) * 0.1
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.strokeStyle = `rgba(227, 43, 60, ${alpha})`
-            ctx.lineWidth = 0.6
+            ctx.strokeStyle = `rgba(138, 43, 226, ${alpha})`
+            ctx.lineWidth = 0.5
             ctx.stroke()
           }
         }
@@ -160,8 +163,8 @@ export default function SwarmCanvas({ active, motionEnabled }) {
         width: '100vw',
         height: '100vh',
         pointerEvents: 'none',
-        zIndex: 5,
-        opacity: 0.85
+        zIndex: 1, /* Strictly behind the portrait (z-index: 5) and content */
+        opacity: 0.75
       }}
     />
   )

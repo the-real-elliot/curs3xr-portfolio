@@ -26,10 +26,7 @@ export default function App() {
 
   return (
     <div className="portfolio-app">
-      {/* Subtle Analog Grain Texture Overlay */}
-      <div className="noise-overlay" aria-hidden="true" />
-
-      {/* Interactive Cyber Swarm Particles (Always active) */}
+      {/* Interactive Cyber Swarm Particles (Always active, in background) */}
       <SwarmCanvas active={swarmActive} motionEnabled={motionEnabled} />
 
       {/* Persistent Clean Navigation */}

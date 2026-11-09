@@ -12,17 +12,17 @@ export default function Hero({ motionEnabled }) {
     offset: ['start start', 'end start']
   })
 
-  const portraitScrollY = useTransform(scrollYProgress, [0, 1], [0, 80])
-  const textScrollY = useTransform(scrollYProgress, [0, 1], [0, -35])
-  const bgTextScrollY = useTransform(scrollYProgress, [0, 1], [0, 45])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  const portraitScrollY = useTransform(scrollYProgress, [0, 1], [0, 70])
+  const textScrollY = useTransform(scrollYProgress, [0, 1], [0, -30])
+  const bgTextScrollY = useTransform(scrollYProgress, [0, 1], [0, 40])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0])
 
-  // Mouse interactive 3D parallax tilt (spring-damped physics)
+  // High-end mouse interactive 3D physics tilt
   const springConfig = { damping: 25, stiffness: 120 }
   const tiltX = useSpring(0, springConfig)
   const tiltY = useSpring(0, springConfig)
-  const glowShiftX = useSpring(0, springConfig)
-  const glowShiftY = useSpring(0, springConfig)
+  const auraShiftX = useSpring(0, springConfig)
+  const auraShiftY = useSpring(0, springConfig)
 
   useEffect(() => {
     if (!motionEnabled) return
@@ -33,13 +33,13 @@ export default function Hero({ motionEnabled }) {
       const y = (e.clientY / innerHeight - 0.5) * 2 // -1 to 1
       tiltX.set(y * -5) // smooth rotateX
       tiltY.set(x * 6)  // smooth rotateY
-      glowShiftX.set(x * -20)
-      glowShiftY.set(y * -12)
+      auraShiftX.set(x * -24)
+      auraShiftY.set(y * -14)
     }
 
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [motionEnabled, tiltX, tiltY, glowShiftX, glowShiftY])
+  }, [motionEnabled, tiltX, tiltY, auraShiftX, auraShiftY])
 
   const stagger = {
     hidden: { opacity: 0 },
@@ -62,13 +62,12 @@ export default function Hero({ motionEnabled }) {
   return (
     <section ref={sectionRef} id="home" className="hero-root">
 
-      {/* ── Background Subtle Cyber Grid & Ambient Radial Glow ── */}
-      <div className="hero-radial" />
-      <div className="hero-grid-pattern" />
+      {/* ── Background Deep Radial Ambient Vignette (Smooth, no grid squares) ── */}
+      <div className="hero-smooth-ambient" />
 
       {/* ══════════════════════════════════════════════════════════
           LAYER 1: GIANT "PORTFOLIO" BACKGROUND TEXT
-          Full-width, rich dark crimson, perfectly centered
+          Positioned strictly behind the portrait (z-index: 2)
       ══════════════════════════════════════════════════════════ */}
       <motion.div
         className="hero-bg-word-wrap"
@@ -79,9 +78,9 @@ export default function Hero({ motionEnabled }) {
       </motion.div>
 
       {/* ══════════════════════════════════════════════════════════
-          LAYER 2: CENTER PORTRAIT STAGE (LANDSCAPE MIDDLE)
-          Uses 100% width + flexbox centering to avoid transform collisions.
-          Mathematically dead-center on desktop, prominently visible on phone.
+          LAYER 2: COSMIC NEON AURA & CENTER PORTRAIT
+          Vibrant Electric Blue & Cosmic Purple Halo with Godrays.
+          Positioned at z-index: 5 (in front of background & particles).
       ══════════════════════════════════════════════════════════ */}
       <motion.div
         className="hero-portrait-stage"
@@ -90,16 +89,31 @@ export default function Hero({ motionEnabled }) {
           opacity: heroOpacity
         } : {}}
       >
-        {/* Volumetric Red Rim Backlight behind portrait */}
-        <div className="hero-volumetric-wrap">
+        {/* Cosmic Neon Aura: Electric Blue + Purple + Godrays Volumetric Bloom */}
+        <div className="hero-cosmic-aura-wrap">
+          {/* Broad cosmic gradient bloom */}
           <motion.div
-            className="hero-volumetric-glow"
-            style={motionEnabled ? { x: glowShiftX, y: glowShiftY } : {}}
+            className="hero-cosmic-glow-outer"
+            style={motionEnabled ? { x: auraShiftX, y: auraShiftY } : {}}
           />
-          <div className="hero-volumetric-core" />
+
+          {/* Electric blue right rim-light orb */}
+          <motion.div
+            className="hero-cosmic-glow-blue"
+            style={motionEnabled ? { x: auraShiftX, y: auraShiftY } : {}}
+          />
+
+          {/* Vivid purple/violet left rim-light orb */}
+          <motion.div
+            className="hero-cosmic-glow-purple"
+            style={motionEnabled ? { x: auraShiftX, y: auraShiftY } : {}}
+          />
+
+          {/* Godrays: Volumetric light beam fan radiating behind shoulders */}
+          <div className="hero-cosmic-godrays" />
         </div>
 
-        {/* 3D Tilted Portrait Frame */}
+        {/* 3D Interactive Spring Tilted Portrait Frame */}
         <motion.div
           className="hero-portrait-frame"
           style={motionEnabled ? {
@@ -123,7 +137,7 @@ export default function Hero({ motionEnabled }) {
       </motion.div>
 
       {/* ══════════════════════════════════════════════════════════
-          LAYER 3: CONTENT OVERLAY (WIDE FULL-BLEED LANDSCAPE)
+          LAYER 3: CONTENT OVERLAY (DESKTOP & MOBILE RESPONSIVE)
           Left: Identity & CTA | Right: Badge & 3 Authentic Stats
       ══════════════════════════════════════════════════════════ */}
       <motion.div
@@ -198,7 +212,7 @@ export default function Hero({ motionEnabled }) {
               </div>
             </motion.div>
 
-            {/* 3 Authentic High-Impact Stats with Dividers (matching Touquir layout) */}
+            {/* 3 Authentic High-Impact Stats with Dividers */}
             <motion.div variants={motionEnabled ? fadeRight : {}} className="hero-stats-group">
               
               {/* Stat 1 */}
@@ -244,7 +258,7 @@ export default function Hero({ motionEnabled }) {
       <div className="hero-bottom-fade" />
 
       {/* ══════════════════════════════════════════════════════════
-          HERO STYLES (LANDSCAPE WIDE, PRECISION ALIGNMENT)
+          HERO STYLES (COSMIC NEON AURA & HIGH-END UI/UX)
       ══════════════════════════════════════════════════════════ */}
       <style>{`
         .hero-root {
@@ -259,32 +273,20 @@ export default function Hero({ motionEnabled }) {
           border-bottom: 1px solid var(--border-color);
         }
 
-        /* Ambient radial glow */
-        .hero-radial {
+        /* Silky smooth ambient radial vignette (no grid squares) */
+        .hero-smooth-ambient {
           position: absolute;
           inset: 0;
           z-index: 1;
           pointer-events: none;
           background:
-            radial-gradient(ellipse 70% 60% at 50% 50%, rgba(227, 43, 60, 0.08) 0%, transparent 70%);
-        }
-
-        /* Subtle cyber grid pattern */
-        .hero-grid-pattern {
-          position: absolute;
-          inset: 0;
-          z-index: 1;
-          pointer-events: none;
-          background-size: 50px 50px;
-          background-image:
-            linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-          mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 80%);
+            radial-gradient(ellipse 75% 65% at 50% 50%, rgba(227, 43, 60, 0.07) 0%, transparent 70%),
+            radial-gradient(circle at 50% 60%, rgba(106, 13, 173, 0.05) 0%, transparent 60%);
         }
 
         /* ══════════════════════════════════════════
            GIANT "PORTFOLIO" BACKGROUND TEXT
-           Centered with 100% width to prevent transform collisions
+           Placed strictly behind the portrait (z-index: 2)
         ══════════════════════════════════════════ */
         .hero-bg-word-wrap {
           position: absolute;
@@ -305,21 +307,20 @@ export default function Hero({ motionEnabled }) {
           line-height: 0.82;
           letter-spacing: 0.04em;
           text-transform: uppercase;
-          color: rgba(215, 30, 48, 0.42);
-          text-shadow: 0 0 60px rgba(227, 43, 60, 0.25);
+          color: rgba(215, 30, 48, 0.38);
+          text-shadow: 0 0 60px rgba(227, 43, 60, 0.2);
           user-select: none;
           white-space: nowrap;
           display: block;
         }
 
         /* ══════════════════════════════════════════
-           CENTER PORTRAIT STAGE (LANDSCAPE MIDDLE)
-           100% width with flexbox centering:
-           IMMUNE to Framer Motion transform overrides!
+           CENTER PORTRAIT STAGE
+           Positioned at z-index: 5 (in front of particles)
         ══════════════════════════════════════════ */
         .hero-portrait-stage {
           position: absolute;
-          z-index: 4;
+          z-index: 5;
           bottom: 0;
           left: 0;
           right: 0;
@@ -331,8 +332,8 @@ export default function Hero({ motionEnabled }) {
           pointer-events: none;
         }
 
-        /* Volumetric glowing aura behind the portrait */
-        .hero-volumetric-wrap {
+        /* ──── COSMIC NEON AURA (BLUE & PURPLE) ──── */
+        .hero-cosmic-aura-wrap {
           position: absolute;
           inset: 0;
           display: flex;
@@ -342,24 +343,78 @@ export default function Hero({ motionEnabled }) {
           z-index: 0;
         }
 
-        .hero-volumetric-glow {
+        /* Outer blended aura (purple + crimson transition) */
+        .hero-cosmic-glow-outer {
           position: absolute;
-          bottom: 10%;
-          width: 520px;
-          height: 520px;
+          bottom: 12%;
+          width: 600px;
+          height: 600px;
           border-radius: 50%;
-          background: radial-gradient(circle, rgba(227, 43, 60, 0.42) 0%, rgba(227, 43, 60, 0.12) 45%, transparent 70%);
-          filter: blur(65px);
+          background: radial-gradient(circle,
+            rgba(106, 13, 173, 0.5) 0%,
+            rgba(66, 12, 162, 0.35) 35%,
+            rgba(227, 43, 60, 0.15) 60%,
+            transparent 75%
+          );
+          filter: blur(70px);
+          animation: cosmicPulse 7s ease-in-out infinite alternate;
         }
 
-        .hero-volumetric-core {
+        /* Electric Blue Right Rim Light Orb */
+        .hero-cosmic-glow-blue {
           position: absolute;
-          bottom: 20%;
-          width: 320px;
-          height: 320px;
+          bottom: 16%;
+          left: calc(50% + 50px);
+          width: 380px;
+          height: 480px;
           border-radius: 50%;
-          background: radial-gradient(circle, rgba(255, 60, 80, 0.25) 0%, transparent 60%);
-          filter: blur(40px);
+          background: radial-gradient(circle,
+            rgba(26, 53, 255, 0.55) 0%,
+            rgba(12, 18, 157, 0.3) 45%,
+            transparent 70%
+          );
+          filter: blur(55px);
+        }
+
+        /* Vivid Cosmic Purple Left Rim Light Orb */
+        .hero-cosmic-glow-purple {
+          position: absolute;
+          bottom: 18%;
+          right: calc(50% + 50px);
+          width: 380px;
+          height: 480px;
+          border-radius: 50%;
+          background: radial-gradient(circle,
+            rgba(138, 43, 226, 0.6) 0%,
+            rgba(107, 0, 148, 0.35) 45%,
+            transparent 70%
+          );
+          filter: blur(55px);
+        }
+
+        /* Volumetric Godrays effect radiating behind head & shoulders */
+        .hero-cosmic-godrays {
+          position: absolute;
+          bottom: 25%;
+          width: 500px;
+          height: 400px;
+          background:
+            conic-gradient(from 180deg at 50% 100%,
+              transparent 0deg,
+              rgba(138, 43, 226, 0.15) 35deg,
+              transparent 70deg,
+              rgba(30, 100, 255, 0.18) 110deg,
+              transparent 145deg,
+              rgba(227, 43, 60, 0.12) 180deg
+            );
+          filter: blur(35px);
+          opacity: 0.85;
+          mask-image: radial-gradient(ellipse at 50% 100%, black 30%, transparent 75%);
+        }
+
+        @keyframes cosmicPulse {
+          0% { transform: scale(0.96); opacity: 0.85; }
+          100% { transform: scale(1.04); opacity: 1; }
         }
 
         .hero-portrait-frame {
@@ -371,6 +426,7 @@ export default function Hero({ motionEnabled }) {
           height: 100%;
         }
 
+        /* Portrait with Cosmic Neon Dual Rim Lighting Drop-Shadows */
         .hero-portrait-img {
           position: relative;
           z-index: 1;
@@ -380,9 +436,10 @@ export default function Hero({ motionEnabled }) {
           object-fit: contain;
           object-position: bottom center;
           filter:
-            drop-shadow(0 20px 50px rgba(0, 0, 0, 0.9))
-            drop-shadow(0 0 65px rgba(227, 43, 60, 0.28))
-            drop-shadow(-10px 0 35px rgba(227, 43, 60, 0.16));
+            drop-shadow(0 20px 50px rgba(0, 0, 0, 0.95))
+            drop-shadow(-18px 0 45px rgba(138, 43, 226, 0.45))
+            drop-shadow(18px 0 45px rgba(26, 53, 255, 0.5))
+            drop-shadow(0 0 65px rgba(227, 43, 60, 0.2));
         }
 
         /* ══════════════════════════════════════════
@@ -395,11 +452,10 @@ export default function Hero({ motionEnabled }) {
           min-height: 100vh;
           display: flex;
           align-items: center;
-          padding-top: 90px;
+          padding-top: 100px;
           padding-bottom: 60px;
         }
 
-        /* Wide layout container spanning full landscape */
         .hero-wide-container {
           width: 100%;
           max-width: 1720px;
@@ -415,7 +471,7 @@ export default function Hero({ motionEnabled }) {
         .hero-left-col {
           display: flex;
           flex-direction: column;
-          max-width: 440px;
+          max-width: 420px;
           flex-shrink: 0;
           z-index: 11;
         }
@@ -529,7 +585,7 @@ export default function Hero({ motionEnabled }) {
           align-items: flex-end;
           gap: 2.2rem;
           flex-shrink: 0;
-          max-width: 380px;
+          max-width: 340px;
           z-index: 11;
         }
 
@@ -636,17 +692,13 @@ export default function Hero({ motionEnabled }) {
         }
 
         /* ══════════════════════════════════════════
-           RESPONSIVE DESIGN (DESKTOP -> TABLET -> PHONE)
+           RESPONSIVE DESIGN (DESKTOP -> TABLET -> MOBILE)
         ══════════════════════════════════════════ */
 
-        /* Laptop / Medium Desktop (<= 1200px) */
+        /* Laptop (<= 1200px) */
         @media (max-width: 1200px) {
           .hero-portrait-stage {
             height: 82%;
-          }
-
-          .hero-portrait-img {
-            opacity: 0.85;
           }
 
           .hero-stats-group {
@@ -664,8 +716,8 @@ export default function Hero({ motionEnabled }) {
           .hero-wide-container {
             flex-direction: column;
             align-items: flex-start;
-            gap: 2.5rem;
-            padding-top: 2rem;
+            gap: 2rem;
+            padding-top: 1rem;
           }
 
           .hero-right-col {
@@ -688,117 +740,163 @@ export default function Hero({ motionEnabled }) {
 
           .hero-portrait-stage {
             height: 75vh;
-            z-index: 3;
-          }
-
-          .hero-portrait-img {
-            opacity: 0.85;
+            z-index: 5;
           }
 
           .hero-bg-word {
             font-size: clamp(5rem, 18vw, 12rem);
-            color: rgba(215, 30, 48, 0.35);
+            color: rgba(215, 30, 48, 0.3);
           }
         }
 
-        /* Mobile Phone (<= 640px) */
-        /* PROMINENT, VIVID, CLEARLY VISIBLE PORTRAIT ON PHONE */
+        /* Mobile Phone (<= 640px):
+           FULL REDESIGN FOR MOBILE:
+           - Portrait is centered, tall, sharp and NEVER obscured by cards!
+           - Text & CTA sit at top with deep shadows.
+           - Stats sit cleanly below the hero fold or at the base so his face is completely clear.
+        */
         @media (max-width: 640px) {
           .hero-root {
-            min-height: 100svh;
-            padding-top: 80px;
+            min-height: auto;
+            padding-top: 90px;
+            padding-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
           }
 
           .hero-overlay {
-            padding-top: 40px;
-            padding-bottom: 40px;
+            min-height: auto;
+            padding-top: 10px;
+            padding-bottom: 0;
           }
 
           .hero-wide-container {
-            padding: 0 1.5rem;
-            gap: 2rem;
+            padding: 0 1.25rem;
+            gap: 1.5rem;
+            flex-direction: column;
           }
 
-          /* The portrait is prominent, centered, and fully visible on phone */
-          .hero-portrait-stage {
-            height: 72vh;
-            bottom: 0;
-            z-index: 3;
-            opacity: 1 !important;
-          }
-
-          .hero-portrait-img {
-            opacity: 0.88 !important; /* Clearly visible, NOT hidden! */
-            max-height: 72vh;
-            filter:
-              drop-shadow(0 15px 35px rgba(0, 0, 0, 0.95))
-              drop-shadow(0 0 45px rgba(227, 43, 60, 0.4));
-          }
-
-          /* Text has strong shadows to contrast over background/portrait */
           .hero-left-col {
+            max-width: 100%;
             z-index: 10;
+          }
+
+          .hero-role-tags {
+            margin-bottom: 1rem;
+          }
+
+          .hero-cursive {
+            font-size: 2.2rem;
           }
 
           .hero-title {
-            font-size: clamp(3.4rem, 16vw, 4.8rem);
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 0.9);
+            font-size: clamp(3.2rem, 15vw, 4.4rem);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95);
           }
 
           .hero-subtitle {
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
           }
 
           .hero-description {
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
-            background: rgba(9, 9, 9, 0.45);
-            backdrop-filter: blur(6px);
-            padding: 0.6rem 0.85rem;
-            border-radius: 8px;
-            border-left: 2px solid var(--accent);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
           }
 
-          .hero-bg-word {
-            font-size: clamp(4.2rem, 22vw, 8rem);
-            color: rgba(215, 30, 48, 0.35);
+          .hero-cta-wrap {
+            margin-bottom: 1.5rem;
           }
 
-          .hero-right-col {
-            z-index: 10;
+          /* The Portrait Stage on Mobile:
+             Centered, high-end presence, sitting proud in the center! */
+          .hero-portrait-stage {
+            position: relative;
+            height: 60vh;
+            min-height: 420px;
+            max-height: 520px;
             width: 100%;
-            align-items: flex-start;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            z-index: 5;
+          }
+
+          .hero-portrait-img {
+            max-height: 58vh;
+            opacity: 1 !important;
+            filter:
+              drop-shadow(0 15px 35px rgba(0, 0, 0, 0.95))
+              drop-shadow(-12px 0 35px rgba(138, 43, 226, 0.6))
+              drop-shadow(12px 0 35px rgba(26, 53, 255, 0.65));
+          }
+
+          .hero-cosmic-glow-outer {
+            width: 320px;
+            height: 320px;
+            filter: blur(45px);
+          }
+
+          .hero-cosmic-glow-blue,
+          .hero-cosmic-glow-purple {
+            width: 220px;
+            height: 300px;
+            filter: blur(35px);
+          }
+
+          /* Right column & Stats on Mobile:
+             Positioned cleanly BELOW the portrait so they NEVER cover his face! */
+          .hero-right-col {
+            width: 100%;
+            max-width: 100%;
+            align-items: center;
             gap: 1.25rem;
+            z-index: 10;
+          }
+
+          .hero-quote-pill {
+            padding: 0.6rem 1.25rem;
           }
 
           .hero-stats-group {
-            flex-direction: column;
-            gap: 0.5rem;
             width: 100%;
-            background: rgba(14, 14, 14, 0.65);
-            backdrop-filter: blur(10px);
+            max-width: 100%;
+            flex-direction: row;
+            justify-content: space-around;
+            background: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 0.75rem 1.25rem;
+            border-radius: 14px;
+            padding: 1rem 0.5rem;
           }
 
           .hero-stat-row {
-            padding: 0.6rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-          }
-
-          .hero-stat-row:first-child {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.25rem;
+            padding: 0 0.5rem;
+            border-bottom: none;
             border-top: none;
           }
 
           .hero-stat-num {
-            font-size: 2.6rem;
-            min-width: 80px;
+            font-size: 2.2rem;
+            min-width: auto;
+            text-align: center;
           }
 
-          .hero-volumetric-glow,
-          .hero-volumetric-core {
-            width: 280px;
-            height: 280px;
+          .hero-stat-meta {
+            align-items: center;
+            text-align: center;
+            font-size: 0.6rem;
+          }
+
+          .hero-bg-word {
+            font-size: clamp(4.5rem, 22vw, 7.5rem);
           }
         }
       `}</style>

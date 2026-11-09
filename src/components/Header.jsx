@@ -52,6 +52,34 @@ export default function Header() {
     { name: 'CONTACT', href: '#contact' },
   ]
 
+  const menuContainerVariants = {
+    hidden: { opacity: 0, height: 0 },
+    visible: {
+      opacity: 1,
+      height: 'auto',
+      transition: {
+        duration: 0.35,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.05,
+        delayChildren: 0.05
+      }
+    },
+    exit: {
+      opacity: 0,
+      height: 0,
+      transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] }
+    }
+  }
+
+  const menuItemVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] }
+    }
+  }
+
   return (
     <header
       style={{
@@ -60,9 +88,9 @@ export default function Header() {
         left: 0,
         right: 0,
         zIndex: 100,
-        backgroundColor: scrolled ? 'rgba(9, 9, 9, 0.92)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(16px)' : 'none',
-        borderBottom: scrolled ? '1px solid var(--border-color)' : '1px solid transparent',
+        backgroundColor: scrolled ? 'rgba(9, 9, 9, 0.94)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(227, 43, 60, 0.2)' : '1px solid transparent',
         transition: 'all 0.3s cubic-bezier(0.22, 1, 0.36, 1)'
       }}
     >
@@ -76,7 +104,8 @@ export default function Header() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)'
+            clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
+            boxShadow: '0 0 15px rgba(227, 43, 60, 0.6)'
           }}>
             <div style={{ width: '8px', height: '8px', background: '#090909' }} />
           </div>
@@ -119,7 +148,8 @@ export default function Header() {
                       left: 0,
                       right: 0,
                       height: '2px',
-                      backgroundColor: 'var(--accent)'
+                      backgroundColor: 'var(--accent)',
+                      boxShadow: '0 0 10px var(--accent)'
                     }}
                     transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                   />
@@ -146,66 +176,83 @@ export default function Header() {
             <ArrowUpRight size={14} />
           </a>
 
-          {/* Mobile Menu Hamburger */}
-          <button
+          {/* Mobile Menu Hamburger with Rotation Transition */}
+          <motion.button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation menu"
             className="mobile-hamburger"
+            whileTap={{ scale: 0.9 }}
             style={{
-              background: 'transparent',
-              border: 'none',
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '8px',
               color: 'var(--text-primary)',
               cursor: 'pointer',
               display: 'flex',
-              padding: '0.5rem'
+              padding: '0.6rem'
             }}
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {mobileMenuOpen ? <X size={24} className="text-accent" /> : <Menu size={24} />}
+          </motion.button>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* High-End Mobile Drawer Menu with Staggered Entrance */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            variants={menuContainerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             style={{
-              backgroundColor: 'var(--bg-secondary)',
-              borderBottom: '1px solid var(--border-color)',
+              backgroundColor: 'rgba(9, 9, 9, 0.96)',
+              backdropFilter: 'blur(30px)',
+              borderBottom: '1px solid rgba(227, 43, 60, 0.3)',
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.8)',
               overflow: 'hidden'
             }}
           >
             <div className="container" style={{ padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               {navLinks.map((link) => (
-                <a
+                <motion.a
                   key={link.name}
+                  variants={menuItemVariants}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   style={{
                     fontFamily: 'var(--font-display)',
-                    fontSize: '1.75rem',
-                    letterSpacing: '0.05em',
-                    color: activeSection === link.href.replace('#', '') ? 'var(--accent)' : 'var(--text-primary)'
+                    fontSize: '1.85rem',
+                    letterSpacing: '0.06em',
+                    color: activeSection === link.href.replace('#', '') ? 'var(--accent)' : 'var(--text-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.2rem 0',
+                    borderBottom: '1px solid rgba(255, 255, 255, 0.04)'
                   }}
                 >
-                  {link.name}
-                </a>
+                  <span>{link.name}</span>
+                  {activeSection === link.href.replace('#', '') && (
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent)', boxShadow: '0 0 10px var(--accent)' }} />
+                  )}
+                </motion.a>
               ))}
-              <div style={{ paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
+
+              <motion.div
+                variants={menuItemVariants}
+                style={{ paddingTop: '1rem' }}
+              >
                 <a
                   href="#contact"
                   onClick={() => setMobileMenuOpen(false)}
                   className="btn btn-primary"
-                  style={{ width: '100%', padding: '0.8rem', justifyContent: 'center' }}
+                  style={{ width: '100%', padding: '0.9rem', justifyContent: 'center', fontSize: '0.9rem' }}
                 >
                   <span>INITIATE CONTACT</span>
-                  <ArrowUpRight size={14} />
+                  <ArrowUpRight size={16} />
                 </a>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         )}
