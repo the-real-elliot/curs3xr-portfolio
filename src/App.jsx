@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import LoadingScreen from './components/LoadingScreen'
+import CustomCursor from './components/CustomCursor'
+import ShaderBackground from './components/ShaderBackground'
+import ScrollSection from './components/ScrollSection'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -28,10 +31,16 @@ export default function App() {
 
   return (
     <div className="portfolio-app">
+      {/* Optimized Smooth Neon Circle Cursor (replaces OS cursor on desktop) */}
+      <CustomCursor />
+
       {/* High-End Cyber Preloader */}
       {isLoading && (
         <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
       )}
+
+      {/* High-End Shader UI/UX Background (fades in only after scrolling down past landing page) */}
+      <ShaderBackground motionEnabled={motionEnabled} />
 
       {/* Interactive Cyber Swarm Particles (Always active, in background) */}
       <SwarmCanvas active={swarmActive} motionEnabled={motionEnabled} />
@@ -42,14 +51,38 @@ export default function App() {
       {/* Main Content Flow */}
       <main id="main-content">
         <Hero motionEnabled={motionEnabled} />
-        <About motionEnabled={motionEnabled} />
-        <Cybersecurity motionEnabled={motionEnabled} />
-        <WebDev motionEnabled={motionEnabled} />
-        <Skills motionEnabled={motionEnabled} />
-        <ProjectGrid onSelectProject={setSelectedProject} motionEnabled={motionEnabled} />
-        <Experience motionEnabled={motionEnabled} />
-        <Terminal motionEnabled={motionEnabled} />
-        <Contact motionEnabled={motionEnabled} />
+        
+        <ScrollSection motionEnabled={motionEnabled}>
+          <About motionEnabled={motionEnabled} />
+        </ScrollSection>
+
+        <ScrollSection motionEnabled={motionEnabled}>
+          <Cybersecurity motionEnabled={motionEnabled} />
+        </ScrollSection>
+
+        <ScrollSection motionEnabled={motionEnabled}>
+          <WebDev motionEnabled={motionEnabled} />
+        </ScrollSection>
+
+        <ScrollSection motionEnabled={motionEnabled}>
+          <Skills motionEnabled={motionEnabled} />
+        </ScrollSection>
+
+        <ScrollSection motionEnabled={motionEnabled}>
+          <ProjectGrid onSelectProject={setSelectedProject} motionEnabled={motionEnabled} />
+        </ScrollSection>
+
+        <ScrollSection motionEnabled={motionEnabled}>
+          <Experience motionEnabled={motionEnabled} />
+        </ScrollSection>
+
+        <ScrollSection motionEnabled={motionEnabled}>
+          <Terminal motionEnabled={motionEnabled} />
+        </ScrollSection>
+
+        <ScrollSection motionEnabled={motionEnabled}>
+          <Contact motionEnabled={motionEnabled} />
+        </ScrollSection>
       </main>
 
       {/* Footer */}

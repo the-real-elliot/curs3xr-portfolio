@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring, useMotionTemplate } from 'framer-motion'
 import { ArrowDown, MapPin, Sparkles, Terminal as TerminalIcon, Shield } from 'lucide-react'
 import { siteConfig } from '../config/site'
 import CosmicNebulaCanvas from './CosmicNebulaCanvas'
@@ -16,7 +16,10 @@ export default function Hero({ motionEnabled }) {
   const portraitScrollY = useTransform(scrollYProgress, [0, 1], [0, 60])
   const textScrollY = useTransform(scrollYProgress, [0, 1], [0, -25])
   const bgTextScrollY = useTransform(scrollYProgress, [0, 1], [0, 35])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.72], [1, 0])
+  const heroBlur = useTransform(scrollYProgress, [0, 0.72], [0, 18])
+  const heroScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.94])
+  const heroFilter = useMotionTemplate`blur(${heroBlur}px)`
 
   // High-end mouse interactive 3D physics tilt
   const springConfig = { damping: 25, stiffness: 120 }
@@ -141,7 +144,11 @@ export default function Hero({ motionEnabled }) {
       ══════════════════════════════════════════════════════════ */}
       <motion.div
         className="hero-bg-word-wrap"
-        style={motionEnabled ? { y: bgTextScrollY } : {}}
+        style={motionEnabled ? {
+          y: bgTextScrollY,
+          opacity: heroOpacity,
+          filter: heroFilter
+        } : {}}
         aria-hidden="true"
       >
         <span className="hero-bg-word">PORTFOLIO</span>
@@ -156,7 +163,9 @@ export default function Hero({ motionEnabled }) {
         className="hero-desktop-stage-container"
         style={motionEnabled ? {
           y: portraitScrollY,
-          opacity: heroOpacity
+          opacity: heroOpacity,
+          filter: heroFilter,
+          scale: heroScale
         } : {}}
       >
         {renderPortraitStage(false)}
@@ -168,7 +177,12 @@ export default function Hero({ motionEnabled }) {
       ══════════════════════════════════════════════════════════ */}
       <motion.div
         className="hero-overlay"
-        style={motionEnabled ? { y: textScrollY } : {}}
+        style={motionEnabled ? {
+          y: textScrollY,
+          opacity: heroOpacity,
+          filter: heroFilter,
+          scale: heroScale
+        } : {}}
       >
         <div className="hero-wide-container">
 
