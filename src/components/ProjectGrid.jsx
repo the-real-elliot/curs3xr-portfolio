@@ -73,14 +73,14 @@ export default function ProjectGrid({ onSelectProject, motionEnabled }) {
         {/* Projects Display / Empty State */}
         {filteredProjects.length > 0 ? (
           <div className="projects-grid">
-            {filteredProjects.map((project) => (
+            {filteredProjects.map((project, pIdx) => (
               <motion.div
                 key={project.id}
                 layout
-                initial={motionEnabled ? { opacity: 0, y: 20 } : false}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4 }}
+                initial={motionEnabled ? { opacity: 0, y: 35 } : false}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.15 }}
+                transition={{ duration: 0.45, delay: (pIdx % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
                 className="project-card"
                 onClick={() => onSelectProject(project)}
               >

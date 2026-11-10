@@ -1,10 +1,24 @@
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import React, { useState, useRef } from 'react'
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion'
 import { ChevronDown, Calendar, Shield, Code, Terminal, Sparkles } from 'lucide-react'
 import { milestones } from '../data/experience'
 
 export default function Experience({ motionEnabled }) {
   const [expandedIndex, setExpandedIndex] = useState(0)
+  const containerRef = useRef(null)
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start center', 'end center']
+  })
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 25,
+    restDelta: 0.001
+  })
+
+  const spineHeight = useTransform(smoothProgress, [0, 1], ['0%', '100%'])
 
   const toggleExpand = (index) => {
     setExpandedIndex(expandedIndex === index ? -1 : index)
@@ -23,14 +37,26 @@ export default function Experience({ motionEnabled }) {
         </div>
 
         {/* Timeline Stack */}
-        <div className="timeline-container">
+        <div ref={containerRef} className="timeline-container">
+          {/* Scroll-Mapped Cyber Laser Spine */}
+          <div className="timeline-spine-track" aria-hidden="true">
+            <motion.div
+              className="timeline-spine-laser"
+              style={{ height: spineHeight }}
+            />
+          </div>
+
           {milestones.map((item, index) => {
             const isExpanded = expandedIndex === index
             return (
-              <div
+              <motion.div
                 key={index}
                 className={`timeline-item ${isExpanded ? 'active' : ''}`}
                 onClick={() => toggleExpand(index)}
+                initial={motionEnabled ? { opacity: 0, y: 25 } : false}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.45, delay: index * 0.05 }}
               >
                 <div className="timeline-header">
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
@@ -83,7 +109,7 @@ export default function Experience({ motionEnabled }) {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             )
           })}
         </div>
@@ -91,10 +117,43 @@ export default function Experience({ motionEnabled }) {
 
       <style>{`
         .timeline-container {
+          position: relative;
           display: flex;
           flex-direction: column;
           gap: 1.5rem;
           max-width: 960px;
+          padding-left: 2.2rem;
+        }
+
+        .timeline-spine-track {
+          position: absolute;
+          left: 8px;
+          top: 15px;
+          bottom: 15px;
+          width: 2px;
+          background: rgba(255, 255, 255, 0.08);
+          border-radius: 99px;
+        }
+
+        .timeline-spine-laser {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 2px;
+          background: linear-gradient(180deg, #e32b3c 0%, #a82df5 50%, #00f0ff 100%);
+          box-shadow:
+            0 0 10px rgba(227, 43, 60, 0.9),
+            0 0 20px rgba(168, 45, 245, 0.6);
+          border-radius: 99px;
+        }
+
+        @media (max-width: 640px) {
+          .timeline-container {
+            padding-left: 0;
+          }
+          .timeline-spine-track {
+            display: none;
+          }
         }
 
         .timeline-item {

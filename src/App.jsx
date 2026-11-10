@@ -3,6 +3,7 @@ import LoadingScreen from './components/LoadingScreen'
 import CustomCursor from './components/CustomCursor'
 import ShaderBackground from './components/ShaderBackground'
 import ScrollSection from './components/ScrollSection'
+import ScrollTelemetryRail from './components/ScrollTelemetryRail'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -47,6 +48,9 @@ export default function App() {
 
       {/* Persistent Clean Navigation */}
       <Header />
+
+      {/* Cybernetic HUD Scroll-Mapped Telemetry Rail (right edge) */}
+      <ScrollTelemetryRail motionEnabled={motionEnabled} />
 
       {/* Main Content Flow */}
       <main id="main-content">

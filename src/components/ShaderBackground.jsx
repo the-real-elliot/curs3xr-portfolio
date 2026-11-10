@@ -57,6 +57,16 @@ export default function ShaderBackground({ motionEnabled = true }) {
     }
     window.addEventListener('mousemove', onMouseMove, { passive: true })
 
+    // Track scroll velocity for kinetic scroll-mapping animation
+    let lastScrollY = window.scrollY
+    let scrollVelocity = 0
+    const onScroll = () => {
+      const currentY = window.scrollY
+      scrollVelocity = (currentY - lastScrollY) * 0.12
+      lastScrollY = currentY
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+
     const render = () => {
       // If user is at top landing page, pause render to save 100% resources
       if (window.scrollY < 120) {
@@ -65,6 +75,7 @@ export default function ShaderBackground({ motionEnabled = true }) {
       }
 
       time += 0.008
+      scrollVelocity *= 0.94 // Smooth kinetic dampening
       mouse.x += (mouse.targetX - mouse.x) * 0.05
       mouse.y += (mouse.targetY - mouse.y) * 0.05
 
@@ -74,10 +85,10 @@ export default function ShaderBackground({ motionEnabled = true }) {
       const docHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
       const scrollProgress = Math.min(1, Math.max(0, scrollY / docHeight))
 
-      // ── 1. Native GPU Soft Radial Chromatic Energy Orbs ──
-      // Orb 1: Rich Crimson Plasma (drifting top-right to center)
+      // ── 1. Native GPU Soft Radial Chromatic Energy Orbs (Scroll Mapped) ──
+      // Orb 1: Rich Crimson Plasma (drifting top-right to center with scroll velocity)
       const orb1X = width * (0.65 + 0.15 * Math.sin(time * 0.7 + scrollProgress * 2))
-      const orb1Y = height * (0.35 + 0.15 * Math.cos(time * 0.6))
+      const orb1Y = height * (0.35 + 0.15 * Math.cos(time * 0.6)) - scrollVelocity * 4
       const orb1R = Math.min(width, height) * 0.55
       const g1 = ctx.createRadialGradient(orb1X, orb1Y, 0, orb1X, orb1Y, orb1R)
       g1.addColorStop(0, 'rgba(227, 43, 60, 0.18)')
@@ -86,9 +97,9 @@ export default function ShaderBackground({ motionEnabled = true }) {
       ctx.fillStyle = g1
       ctx.fillRect(0, 0, width, height)
 
-      // Orb 2: Cosmic Violet Radiance (drifting left to bottom-center)
+      // Orb 2: Cosmic Violet Radiance (drifting left to bottom-center with scroll velocity)
       const orb2X = width * (0.28 + 0.12 * Math.cos(time * 0.5))
-      const orb2Y = height * (0.62 + 0.15 * Math.sin(time * 0.6 + scrollProgress * 3))
+      const orb2Y = height * (0.62 + 0.15 * Math.sin(time * 0.6 + scrollProgress * 3)) + scrollVelocity * 4
       const orb2R = Math.min(width, height) * 0.6
       const g2 = ctx.createRadialGradient(orb2X, orb2Y, 0, orb2X, orb2Y, orb2R)
       g2.addColorStop(0, 'rgba(138, 43, 226, 0.22)')
@@ -108,13 +119,13 @@ export default function ShaderBackground({ motionEnabled = true }) {
       ctx.fillStyle = g3
       ctx.fillRect(0, 0, width, height)
 
-      // ── 2. Subtle Digital Cybernetic Grid Telemetry ──
+      // ── 2. Subtle Digital Cybernetic Grid Telemetry (Scroll Mapped) ──
       const gridSize = 72
       const offsetX = (time * 12) % gridSize
-      const offsetY = (scrollY * 0.15) % gridSize
+      const offsetY = (scrollY * 0.25 + scrollVelocity * 8) % gridSize
 
       ctx.beginPath()
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.018)'
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.022)'
       ctx.lineWidth = 1
 
       // Vertical subtle grid lines
@@ -122,7 +133,7 @@ export default function ShaderBackground({ motionEnabled = true }) {
         ctx.moveTo(x, 0)
         ctx.lineTo(x, height)
       }
-      // Horizontal subtle grid lines
+      // Horizontal subtle grid lines with kinetic scroll offset
       for (let y = offsetY; y < height; y += gridSize) {
         ctx.moveTo(0, y)
         ctx.lineTo(width, y)
@@ -138,6 +149,7 @@ export default function ShaderBackground({ motionEnabled = true }) {
       cancelAnimationFrame(animationFrameId)
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('scroll', onScroll)
     }
   }, [motionEnabled])
 

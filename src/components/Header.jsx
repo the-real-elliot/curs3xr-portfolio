@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion'
 import { Menu, X, ArrowUpRight } from 'lucide-react'
 import { siteConfig } from '../config/site'
 
@@ -7,6 +7,13 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 25,
+    restDelta: 0.001
+  })
 
   useEffect(() => {
     const handleScroll = () => {
@@ -272,6 +279,21 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Scroll-Mapped Cyber Laser Beam Bar */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '2px',
+          background: 'linear-gradient(90deg, #e32b3c 0%, #a82df5 50%, #00f0ff 100%)',
+          boxShadow: '0 0 10px rgba(227, 43, 60, 0.8), 0 0 20px rgba(168, 45, 245, 0.5)',
+          transformOrigin: 'left',
+          scaleX
+        }}
+      />
 
       <style>{`
         @media (min-width: 960px) {
