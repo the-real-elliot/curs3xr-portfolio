@@ -109,7 +109,7 @@ export default function Hero({ motionEnabled }) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
           loading="eager"
-          width="900"
+          width="820"
           height="1024"
         />
       </motion.div>
